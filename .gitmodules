@@ -1,6 +1,8 @@
 [submodule "ThirdParty/Knot3"]
 	path = ThirdParty/Knot3
 	url = git@github.com:pse-knot/knot3-code.git
+	ignore = dirty
 [submodule "ThirdParty/MonoGame-SDL2"]
 	path = ThirdParty/MonoGame-SDL2
 	url = git@github.com:tobiasschulz/MonoGame.git
+	ignore = dirty
