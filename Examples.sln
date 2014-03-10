@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.SDL2", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knot3.Framework-MG", "ThirdParty\Knot3\Framework\Knot3.Framework-MG.csproj", "{C2868E88-721C-40EB-863B-E9272F95DAF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OggSharp", "ThirdParty\Knot3\ThirdParty\OggSharp\OggSharp\OggSharp.csproj", "{F8C66EB3-E81D-45FB-B28E-747BE332230F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -89,6 +91,14 @@ Global
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x64.Build.0 = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x86.ActiveCfg = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x86.Build.0 = Release|x86
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Debug|x64.Build.0 = Debug|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Debug|x86.Build.0 = Debug|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x64.ActiveCfg = Release|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x64.Build.0 = Release|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.ActiveCfg = Release|Any CPU
+		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Examples.KnotTest\Examples.KnotTest.csproj
