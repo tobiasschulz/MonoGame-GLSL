@@ -41,19 +41,19 @@
     <Compile Include="Hash.cs" />
     <Compile Include="ShaderStage.cs" />
     <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\IndexBuffer.cs">
-      <Link>IndexBuffer.cs</Link>
+      <Link>MonoGame\Graphics\Vertices\IndexBuffer.cs</Link>
     </Compile>
     <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexBuffer.cs">
-      <Link>VertexBuffer.cs</Link>
+      <Link>MonoGame\Graphics\Vertices\VertexBuffer.cs</Link>
     </Compile>
     <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexBufferBinding.cs">
-      <Link>VertexBufferBinding.cs</Link>
+      <Link>MonoGame\Graphics\Vertices\VertexBufferBinding.cs</Link>
     </Compile>
     <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexDeclaration.cs">
-      <Link>VertexDeclaration.cs</Link>
+      <Link>MonoGame\Graphics\Vertices\VertexDeclaration.cs</Link>
     </Compile>
     <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\GraphicsResource.cs">
-      <Link>Graphics\GraphicsResource.cs</Link>
+      <Link>MonoGame\Graphics\GraphicsResource.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -74,8 +74,5 @@
     <None Include="TheoraPlay-CS.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Graphics\" />
   </ItemGroup>
 </Project>
