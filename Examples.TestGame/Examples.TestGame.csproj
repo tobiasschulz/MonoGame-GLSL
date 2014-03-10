@@ -38,6 +38,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ExampleGame.cs" />
     <Compile Include="ExampleScreen.cs" />
+    <Compile Include="ExampleModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -53,5 +54,17 @@
       <Project>{C2868E88-721C-40EB-863B-E9272F95DAF1}</Project>
       <Name>Knot3.Framework-MG</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Content\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Models\enemy_0.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Models\test.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

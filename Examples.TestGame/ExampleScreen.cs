@@ -32,8 +32,10 @@ using System.Diagnostics.CodeAnalysis;
 using Knot3.Framework.Core;
 using Microsoft.Xna.Framework;
 using Knot3.Framework.Models;
+using Knot3.Framework.Platform;
+using System.IO;
 
-namespace Examples.KnotTest
+namespace Examples.TestGame
 {
     public class ExampleScreen : Screen
     {
@@ -42,18 +44,23 @@ namespace Examples.KnotTest
         public ExampleScreen (GameCore game)
             : base(game)
         {
-            world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, bounds: Bounds);
+            BackgroundColor = Color.CornflowerBlue;
 
-            GameModelInfo modelInfo = new GameModelInfo (modelname: "");
-            GameModel model = new GameModel (screen: this, info: modelInfo);
+            world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, bounds: Bounds);
+            world.Camera.Position = new Vector3 (500, 200, 500);
+            world.Camera.Target = new Vector3 (0, 0, 0);
+            
+            Log.Message ("Content Directory: ", Path.GetFullPath(SystemInfo.RelativeContentDirectory));
+            ExampleModelInfo modelInfo = new ExampleModelInfo (modelname: "test") { Scale = Vector3.One / 10 };
+            ExampleModel model = new ExampleModel (screen: this, info: modelInfo);
             world.Add (obj: model);
         }
 
-        public void Draw (GameTime time)
+        public override void Draw (GameTime time)
         {
         }
 
-        public void Update (GameTime time)
+        public override void Update (GameTime time)
         {
         }
 

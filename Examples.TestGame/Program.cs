@@ -31,7 +31,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Examples.KnotTest
+namespace Examples.TestGame
 {
     class MainClass
     {

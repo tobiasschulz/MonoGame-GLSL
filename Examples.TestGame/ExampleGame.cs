@@ -32,7 +32,7 @@ using System.Diagnostics.CodeAnalysis;
 using Knot3.Framework.Core;
 using Knot3.Framework.Audio;
 
-namespace Examples.KnotTest
+namespace Examples.TestGame
 {
     public class ExampleGame : GameCore
     {
@@ -61,6 +61,6 @@ namespace Examples.KnotTest
             AudioManager.Initialize ();
         }
 
-        public override IScreen DefaultScreen { get { return new TestScreen (this); } }
+        public override IScreen DefaultScreen { get { return new ExampleScreen (this); } }
     }
 }
