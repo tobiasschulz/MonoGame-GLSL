@@ -30,32 +30,37 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Knot3.Framework.Core;
+using Microsoft.Xna.Framework;
+using Knot3.Framework.Models;
 
 namespace Examples.KnotTest
 {
-    public class MainGame : GameCore
+    public class ExampleScreen : Screen
     {
-        public MainGame ()
-        : base ()
+        private World world;
+
+        public ExampleScreen (GameCore game)
+            : base(game)
         {
-            Window.Title = "Shader Test Game";
+            world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, bounds: Bounds);
+
+            GameModelInfo modelInfo = new GameModelInfo (modelname: "");
+            GameModel model = new GameModel (screen: this, info: modelInfo);
+            world.Add (obj: model);
         }
 
-        /// <summary>
-        /// Initialisiert die Attribute dieser Klasse.
-        /// </summary>
-        protected override void Initialize ()
+        public void Draw (GameTime time)
         {
-            // base method
-            base.Initialize ();
-
-            // vsync
-            VSync = true;
-
-            // fullscreen
-            IsFullScreen = false;
         }
 
-        public override IScreen DefaultScreen { get { return new TestScreen (this); } }
+        public void Update (GameTime time)
+        {
+        }
+
+        public override void Entered (IScreen previousScreen, GameTime time)
+        {
+            base.Entered (previousScreen, time);
+            AddGameComponents (time, world);
+        }
     }
 }

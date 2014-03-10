@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.ConsoleTest", "Examples.ConsoleTest\Examples.ConsoleTest.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.KnotTest", "Examples.KnotTest\Examples.KnotTest.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.TestGame", "Examples.TestGame\Examples.TestGame.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.GLSL", "MonoGame.GLSL\MonoGame.GLSL.csproj", "{1E80BCE1-545A-4DD5-9206-281515B08E75}"
 EndProject
@@ -101,6 +101,6 @@ Global
 		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Examples.KnotTest\Examples.KnotTest.csproj
+		StartupItem = Examples.TestGame\Examples.TestGame.csproj
 	EndGlobalSection
 EndGlobal

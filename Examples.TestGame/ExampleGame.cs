@@ -30,15 +30,37 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Knot3.Framework.Core;
+using Knot3.Framework.Audio;
 
 namespace Examples.KnotTest
 {
-    public class TestScreen : Screen
+    public class ExampleGame : GameCore
     {
-        public TestScreen (GameCore game)
-            : base(game)
+        public ExampleGame ()
+        : base ()
         {
-
+            Window.Title = "Shader Test Game";
         }
+
+        /// <summary>
+        /// Initialisiert die Attribute dieser Klasse.
+        /// </summary>
+        protected override void Initialize ()
+        {
+            // base method
+            base.Initialize ();
+
+            // vsync
+            VSync = true;
+
+            // fullscreen
+            IsFullScreen = false;
+
+            // audio
+            AudioManager = new SilentAudioManager (game: this);
+            AudioManager.Initialize ();
+        }
+
+        public override IScreen DefaultScreen { get { return new TestScreen (this); } }
     }
 }

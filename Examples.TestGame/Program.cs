@@ -37,7 +37,7 @@ namespace Examples.KnotTest
     {
         public static void Main (string[] args)
         {
-            MainGame game = new MainGame ();
+            ExampleGame game = new ExampleGame ();
             game.Run ();
         }
     }
