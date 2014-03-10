@@ -49,13 +49,8 @@ sub rewrite_csproj {
 
 my @csproj_files = (
 	{ csproj => 'MonoGame.GLSL/MonoGame.GLSL.csproj', dir => 'MonoGame.GLSL/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'Framework/Knot3.Framework-XNA.csproj', dir => 'Framework/', exclude => ['-MG.cs'], linesep => qq[\n] },
-	{ csproj => 'UnitTests/Knot3.UnitTests-MG.csproj', dir => 'UnitTests/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'UnitTests/Knot3.UnitTests-XNA.csproj', dir => 'UnitTests/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'Tools/ConfigReset/Knot3.ConfigReset.csproj', dir => 'Tools/ConfigReset/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'ExtremeTests/Knot3.ExtremeTests-MG.csproj', dir => 'ExtremeTests/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'ExtremeTests/Knot3.ExtremeTests-XNA.csproj', dir => 'ExtremeTests/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'VisualTests/Knot3.VisualTests-MG.csproj', dir => 'VisualTests/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Examples.ConsoleTest/Examples.ConsoleTest.csproj', dir => 'Examples.ConsoleTest/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Examples.KnotTest/Examples.KnotTest.csproj', dir => 'Examples.KnotTest/', exclude => [], linesep => qq[\n] },
 );
 
 foreach my $csproj_file (@csproj_files) {
