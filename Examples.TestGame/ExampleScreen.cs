@@ -34,6 +34,7 @@ using Microsoft.Xna.Framework;
 using Knot3.Framework.Models;
 using Knot3.Framework.Platform;
 using System.IO;
+using Knot3.Framework.Effects;
 
 namespace Examples.TestGame
 {
@@ -46,11 +47,13 @@ namespace Examples.TestGame
         {
             BackgroundColor = Color.CornflowerBlue;
 
-            world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, bounds: Bounds);
+            IRenderEffect glEffect = new ExampleRenderEffect (screen: this);
+
+            world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, effect: glEffect, bounds: Bounds);
             world.Camera.Position = new Vector3 (500, 200, 500);
             world.Camera.Target = new Vector3 (0, 0, 0);
             
-            Log.Message ("Content Directory: ", Path.GetFullPath(SystemInfo.RelativeContentDirectory));
+            Log.Message ("Content Directory: ", Path.GetFullPath (SystemInfo.RelativeContentDirectory));
             ExampleModelInfo modelInfo = new ExampleModelInfo (modelname: "test") { Scale = Vector3.One / 10 };
             ExampleModel model = new ExampleModel (screen: this, info: modelInfo);
             world.Add (obj: model);

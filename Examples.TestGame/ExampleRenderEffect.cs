@@ -27,50 +27,50 @@
  *
  * See the LICENSE file for full license details of the Knot3 project.
  */
-
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Knot3.Framework.Core;
+using Microsoft.Xna.Framework;
+using Knot3.Framework.Models;
+using Knot3.Framework.Platform;
 using System.IO;
-using System.Linq;
+using Knot3.Framework.Effects;
+using MonoGame.GLSL;
 
-using Microsoft.Xna.Framework.Graphics;
-using OpenTK.Graphics.OpenGL;
-
-namespace MonoGame.GLSL
+namespace Examples.TestGame
 {
-    internal class GLShaderProgram
+    public class ExampleRenderEffect : RenderEffect
     {
-        public GLShader VertexShader { get; private set; }
+        private GLEffect effect;
 
-        public GLShader PixelShader { get; private set; }
-
-        public GLShaderProgram (GLShader pixel, GLShader vertex)
+        public ExampleRenderEffect (IScreen screen)
+            : base (screen)
         {
-            VertexShader = vertex;
-            PixelShader = pixel;
+            string pixelShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "pixel1.glfx";
+            string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "vertex1.glfx";
+
+            effect = GLEffect.FromFiles (
+                device: screen.GraphicsDevice,
+                pixelShaderFilename: pixelShaderFilename,
+                vertexShaderFilename: vertexShaderFilename
+            );
         }
-        
 
-        private int shaderProgram;
-        private readonly ShaderProgramCache programCache = new ShaderProgramCache();
-
-        public void Apply ()
+        protected override void DrawRenderTarget (GameTime GameTime)
         {
-            // Lookup the shader program.
-            var info = programCache.GetProgramInfo(VertexShader, PixelShader);
-            if (info.program == -1)
-            {
-                return;
-            }
+            spriteBatch.Draw (RenderTarget, Vector2.Zero, Color.White);
+        }
 
-            // Set the new program if it has changed.
-            if (shaderProgram != info.program)
-            {
-                GL.UseProgram(info.program);
-                GraphicsExtensions.CheckGLError();
-                shaderProgram = info.program;
-            }
+        public override void DrawModel (GameModel model, GameTime time)
+        {
+            // die aktuellen Matrizen setzen
+            Camera camera = model.World.Camera;
+            effect.World = model.WorldMatrix * camera.WorldMatrix;
+            effect.View = camera.ViewMatrix;
+            effect.Projection = camera.ProjectionMatrix;
+
+            // das Modell zeichnen
+            effect.Draw (model.Model);
         }
     }
 }

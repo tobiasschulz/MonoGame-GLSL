@@ -46,8 +46,7 @@ namespace MonoGame.GLSL
         // The shader handle.
         private int _shaderHandle = -1;
         private GLAttribute[] Attributes;
-
-        public GLSamplerInfo[] Samplers { get; private set; }
+        private GLSamplerInfo[] Samplers;
 
         public GLShader (ShaderStage stage, string code)
         {
@@ -55,6 +54,8 @@ namespace MonoGame.GLSL
             Code = code;
 
             HashKey = Hash.ComputeHash (Code.ToCharArray ());
+            Attributes = new GLAttribute[0];
+            Samplers = new GLSamplerInfo[0];
         }
 
         internal int GetShaderHandle ()

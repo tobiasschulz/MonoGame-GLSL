@@ -39,6 +39,7 @@
     <Compile Include="ExampleGame.cs" />
     <Compile Include="ExampleScreen.cs" />
     <Compile Include="ExampleModel.cs" />
+    <Compile Include="ExampleRenderEffect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

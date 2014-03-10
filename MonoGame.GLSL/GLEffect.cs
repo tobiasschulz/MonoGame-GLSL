@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace MonoGame.GLSL
 {
@@ -48,10 +49,18 @@ namespace MonoGame.GLSL
 
         public Matrix World { get; set; }
 
-        public GLEffect (GraphicsDevice device)
+        private GLEffect (GraphicsDevice device, IEnumerable<GLShaderProgram> shaderPrograms)
         {
             Device = device;
-            Shaders = new List<GLShaderProgram> ();
+            Shaders = shaderPrograms.ToList ();
+        }
+
+        public static GLEffect FromFiles (GraphicsDevice device, string pixelShaderFilename, string vertexShaderFilename)
+        {
+            GLShader pixelShader = new GLShader (ShaderStage.Pixel, File.ReadAllText (pixelShaderFilename));
+            GLShader vertexShader = new GLShader (ShaderStage.Vertex, File.ReadAllText (vertexShaderFilename));
+            GLShaderProgram shaderProgram = new GLShaderProgram (vertex: vertexShader, pixel: pixelShader);
+            return new GLEffect (device: device, shaderPrograms: new GLShaderProgram[] { shaderProgram });
         }
 
         public void Draw (Model model)
@@ -78,14 +87,148 @@ namespace MonoGame.GLSL
         {
             foreach (ModelMeshPart part in mesh.MeshParts) {
                 if (part.PrimitiveCount > 0) {
-                    Device.SetVertexBuffer (part.VertexBuffer);
-                    Device.Indices = part.IndexBuffer;
+                    SetVertexBuffer (part.VertexBuffer);
+                    Indices = part.IndexBuffer;
+                    DrawIndexedPrimitives (PrimitiveType.TriangleList, part.VertexOffset, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
+                }
+            }
+        }
 
-                    foreach (GLShaderProgram pass in Shaders) {
-                        pass.Apply ();
-                        Device.DrawIndexedPrimitives (PrimitiveType.TriangleList, part.VertexOffset, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
+        private VertexBufferBinding[] vertexBufferBindings;
+        private IndexBuffer Indices;
+
+        /// <summary>
+        /// Draw geometry by indexing into the vertex buffer.
+        /// </summary>
+        /// <param name="primitiveType">The type of primitives in the index buffer.</param>
+        /// <param name="baseVertex">Used to offset the vertex range indexed from the vertex buffer.</param>
+        /// <param name="minVertexIndex">A hint of the lowest vertex indexed relative to baseVertex.</param>
+        /// <param name="numVertices">An hint of the maximum vertex indexed.</param>
+        /// <param name="startIndex">The index within the index buffer to start drawing from.</param>
+        /// <param name="primitiveCount">The number of primitives to render from the index buffer.</param>
+        /// <remarks>Note that minVertexIndex and numVertices are unused in MonoGame and will be ignored.</remarks>
+        public void DrawIndexedPrimitives (
+            PrimitiveType primitiveType,
+            int baseVertex,
+            int minVertexIndex,
+            int numVertices,
+            int startIndex,
+            int primitiveCount
+        )
+        {
+            foreach (GLShaderProgram pass in Shaders) {
+                pass.Apply ();
+
+                // Unsigned short or unsigned int?
+                bool shortIndices = Device.Indices.IndexElementSize == IndexElementSize.SixteenBits;
+
+                // Set up the vertex buffers
+                foreach (VertexBufferBinding vertBuffer in vertexBufferBindings) {
+                    if (vertBuffer.VertexBuffer != null) {
+                        BindVertexBuffer (vertBuffer.VertexBuffer.Handle);
+                        vertBuffer.VertexBuffer.VertexDeclaration.Apply (
+                            VertexShader,
+                            (IntPtr)(vertBuffer.VertexBuffer.VertexDeclaration.VertexStride * (vertBuffer.VertexOffset + baseVertex))
+                        );
                     }
                 }
+
+                // Enable the appropriate vertex attributes.
+                OpenGLDevice.Instance.FlushGLVertexAttributes ();
+
+                // Bind the index buffer
+                OpenGLDevice.Instance.BindIndexBuffer (Indices.Handle);
+
+                // Draw!
+                GL.DrawRangeElements (
+                    PrimitiveTypeGL (primitiveType),
+                    minVertexIndex,
+                    minVertexIndex + numVertices,
+                    GetElementCountArray (primitiveType, primitiveCount),
+                    shortIndices ? DrawElementsType.UnsignedShort : DrawElementsType.UnsignedInt,
+                    (IntPtr)(startIndex * (shortIndices ? 2 : 4))
+                );
+
+                // Check for errors in the debug context
+                GraphicsExtensions.CheckGLError ();
+            }
+        }
+
+        public void SetVertexBuffer (VertexBuffer vertexBuffer)
+        {
+            if (!ReferenceEquals (vertexBufferBindings [0].VertexBuffer, vertexBuffer)) {
+                vertexBufferBindings [0] = new VertexBufferBinding (vertexBuffer);
+            }
+
+            for (int vertexStreamSlot = 1; vertexStreamSlot < vertexBufferBindings.Length; ++vertexStreamSlot) {
+                if (vertexBufferBindings [vertexStreamSlot].VertexBuffer != null) {
+                    vertexBufferBindings [vertexStreamSlot] = new VertexBufferBinding (null);
+                }
+            }
+        }
+
+        private int currentVertexBuffer = 0;
+        private int currentIndexBuffer = 0;
+
+        public void BindVertexBuffer (int buffer)
+        {
+            if (buffer != currentVertexBuffer) {
+                GL.BindBuffer (BufferTarget.ArrayBuffer, buffer);
+                currentVertexBuffer = buffer;
+            }
+        }
+
+        public void BindIndexBuffer (int buffer)
+        {
+            if (buffer != currentIndexBuffer) {
+                GL.BindBuffer (BufferTarget.ElementArrayBuffer, buffer);
+                currentIndexBuffer = buffer;
+            }
+        }
+
+        void Apply(GLShader shader, IntPtr offset, int divisor = 0)
+        {
+            VertexDeclarationAttributeInfo attrInfo;
+            int shaderHash = shader.GetHashCode();
+            if (!shaderAttributeInfo.TryGetValue(shaderHash, out attrInfo))
+            {
+                // Get the vertex attribute info and cache it
+                attrInfo = new VertexDeclarationAttributeInfo(OpenGLDevice.Instance.MaxVertexAttributes);
+
+                foreach (var ve in _elements)
+                {
+                    var attributeLocation = shader.GetAttribLocation(ve.VertexElementUsage, ve.UsageIndex);
+                    // XNA appears to ignore usages it can't find a match for, so we will do the same
+                    if (attributeLocation >= 0)
+                    {
+                        attrInfo.Elements.Add(new VertexDeclarationAttributeInfo.Element()
+                                              {
+                            Offset = ve.Offset,
+                            AttributeLocation = attributeLocation,
+                            NumberOfElements = ve.VertexElementFormat.OpenGLNumberOfElements(),
+                            VertexAttribPointerType = ve.VertexElementFormat.OpenGLVertexAttribPointerType(),
+                            Normalized = ve.OpenGLVertexAttribNormalized(),
+                        });
+                        attrInfo.EnabledAttributes[attributeLocation] = true;
+                    }
+                }
+
+                shaderAttributeInfo.Add(shaderHash, attrInfo);
+            }
+
+            // Apply the vertex attribute info
+            foreach (var element in attrInfo.Elements)
+            {
+                OpenGLDevice.Instance.AttributeEnabled[element.AttributeLocation] = true;
+                OpenGLDevice.Instance.Attributes[element.AttributeLocation].Divisor.Set(divisor);
+                OpenGLDevice.Instance.VertexAttribPointer(
+                    element.AttributeLocation,
+                    element.NumberOfElements,
+                    element.VertexAttribPointerType,
+                    element.Normalized,
+                    VertexStride,
+                    (IntPtr) (offset.ToInt64() + element.Offset)
+                    );
             }
         }
     }
