@@ -33,29 +33,12 @@ using Knot3.Framework.Core;
 
 namespace Examples.KnotTest
 {
-    public class MainGame : GameCore
+    public class TestScreen : Screen
     {
-        public MainGame ()
-        : base ()
+        public TestScreen (GameCore game)
+            : base(game)
         {
-            Window.Title = "Shader Test Game";
+
         }
-
-        /// <summary>
-        /// Initialisiert die Attribute dieser Klasse.
-        /// </summary>
-        protected override void Initialize ()
-        {
-            // base method
-            base.Initialize ();
-
-            // vsync
-            VSync = true;
-
-            // fullscreen
-            IsFullScreen = false;
-        }
-
-        public override IScreen DefaultScreen { get { return new TestScreen (this); } }
     }
 }
