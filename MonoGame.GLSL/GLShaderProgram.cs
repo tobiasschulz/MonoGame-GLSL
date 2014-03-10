@@ -29,12 +29,48 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+
+using Microsoft.Xna.Framework.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace MonoGame.GLSL
 {
-    internal enum ShaderStage {
-        Vertex,
-        Pixel,
+    internal class GLShaderProgram
+    {
+        public GLShader VertexShader { get; private set; }
+
+        public GLShader PixelShader { get; private set; }
+
+        public GLShaderProgram (GLShader vertex, GLShader pixel)
+        {
+            VertexShader = vertex;
+            PixelShader = pixel;
+        }
+        
+
+        private int shaderProgram;
+        private readonly ShaderProgramCache programCache = new ShaderProgramCache();
+
+        public void Apply ()
+        {
+            // Lookup the shader program.
+            var info = programCache.GetProgramInfo(VertexShader, PixelShader);
+            if (info.program == -1)
+            {
+                return;
+            }
+
+            // Set the new program if it has changed.
+            if (shaderProgram != info.program)
+            {
+                GL.UseProgram(info.program);
+                GraphicsExtensions.CheckGLError();
+                shaderProgram = info.program;
+            }
+        }
     }
 }

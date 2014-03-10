@@ -28,140 +28,65 @@
  * See the LICENSE file for full license details of the Knot3 project.
  */
 using System;
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MonoGame.GLSL
 {
-    public class GLEffect
+    public class GLEffect : IEffectMatrices
     {
         private GraphicsDevice Device;
-        private List<GLShader> Shaders;
-        private List<EffectParameter> Parameters;
-        private List<EffectTechnique> Techniques;
+        private List<GLShaderProgram> Shaders;
+
+        public Matrix Projection { get; set; }
+
+        public Matrix View { get; set; }
+
+        public Matrix World { get; set; }
 
         public GLEffect (GraphicsDevice device)
         {
             Device = device;
-            Shaders = new List<GLShader> ();
-            Parameters = new List<EffectParameter> ();
-            Techniques = new List<EffectTechnique> ();
+            Shaders = new List<GLShaderProgram> ();
         }
 
-        public Effect ToEffect ()
+        public void Draw (Model model)
         {
-            return new Effect (graphicsDevice: Device, effectCode: EffectCode);
-        }
+            int boneCount = model.Bones.Count;
 
-        public static implicit operator Effect (GLEffect glEffect)
-        {
-            return glEffect.ToEffect ();
-        }
+            // Look up combined bone matrices for the entire model.
+            Matrix[] sharedDrawBoneMatrices = new Matrix [boneCount];
+            model.CopyAbsoluteBoneTransformsTo (sharedDrawBoneMatrices);
 
-        public byte[] EffectCode {
-            get {
-                using (MemoryStream stream = new MemoryStream()) {
-                    using (BinaryWriter writer = new BinaryWriter(stream)) {
-                        WriteEffectCode (writer);
-                    }
-                    return stream.ToArray ();
-                }
+            // Draw the model.
+            foreach (ModelMesh mesh in model.Meshes) {
+                Matrix world = sharedDrawBoneMatrices [mesh.ParentBone.Index] * World;
+                Draw (mesh, world);
             }
         }
 
-        /// <summary>
-        /// The MonoGame Effect file format header identifier.
-        /// </summary>
-        private const string MGFXHeader = "MGFX";
-        /// <summary>
-        /// The current MonoGame Effect file format versions
-        /// used to detect old packaged content.
-        /// </summary>
-        private const byte MGFXVersion = 5;
-        /// <summary>
-        /// The MGFX profile. OpenGL is 0, DirectX is 1.
-        /// </summary>
-        private const byte MGFXProfile = 0;
-
-        private void WriteEffectCode (BinaryWriter writer)
+        public void Draw (ModelMesh mesh)
         {
-            writer.Write (MGFXHeader.ToCharArray ());
-            writer.Write ((byte)MGFXVersion);
-            writer.Write ((byte)MGFXProfile);
-            
-            // We don't have any constant buffers.
-            int constantBufferCount = 0;
-            writer.Write ((byte)constantBufferCount);
-
-            // Write all the shader objects
-            int shaderCount = Shaders.Count;
-            writer.Write ((byte)shaderCount);
-            foreach (GLShader shader in Shaders) {
-                shader.WriteEffectCode (writer);
-            }
-
-            // Write the parameters.
-            WriteParameters (writer, Parameters);
-
-            // Write the techniques.
-            int techniqueCount = Techniques.Count;
-            writer.Write ((byte)techniqueCount);
-            foreach (EffectTechnique technique in Techniques) {
-                writer.Write (technique.Name);
-                WriteAnnotations (writer);
-                WritePasses (writer);
-            }
+            Draw (mesh, World);
         }
 
-        private void WriteAnnotations (BinaryWriter writer)
+        public void Draw (ModelMesh mesh, Matrix world)
         {
-            writer.Write ((byte)0);
-        }
+            foreach (ModelMeshPart part in mesh.MeshParts) {
+                if (part.PrimitiveCount > 0) {
+                    Device.SetVertexBuffer (part.VertexBuffer);
+                    Device.Indices = part.IndexBuffer;
 
-        private void WriteParameters (BinaryWriter writer, EffectParameterCollection parameters)
-        {
-            WriteParameters (writer, parameters.ToList ());
-        }
-
-        private void WriteParameters (BinaryWriter writer, List<EffectParameter> parameters)
-        {
-            writer.Write ((byte)parameters.Count);
-            if (parameters.Count == 0)
-                return;
-
-            foreach (EffectParameter param in parameters) {
-                writer.Write ((byte)param.ParameterClass);
-                writer.Write ((byte)param.ParameterType);
-                writer.Write ((string)param.Name);
-                writer.Write ((string)param.Semantic);
-                WriteAnnotations (writer);
-                writer.Write ((byte)param.RowCount);
-                writer.Write ((byte)param.ColumnCount);
-                
-                WriteParameters (writer, param.Elements);
-                WriteParameters (writer, param.StructureMembers);
-
-                
-
-                if (param.Elements.Count == 0 && param.StructureMembers.Count == 0) {
-                    if (param.GetType () == EffectParameterType.Bool || param.GetType () == EffectParameterType.Int32
-                        || param.GetType () == EffectParameterType.Single) {
-
-                        var buffer = new float[rowCount * columnCount];
-                        for (var j = 0; j < buffer.Length; j++)
-                            buffer [j] = reader.ReadSingle ();
-                        data = buffer;
+                    foreach (GLShaderProgram pass in Shaders) {
+                        pass.Apply ();
+                        Device.DrawIndexedPrimitives (PrimitiveType.TriangleList, part.VertexOffset, 0, part.NumVertices, part.StartIndex, part.PrimitiveCount);
                     }
                 }
             }
-        }
-
-        private void WritePasses (BinaryWriter writer)
-        {
-            throw new NotImplementedException ();
         }
     }
 }

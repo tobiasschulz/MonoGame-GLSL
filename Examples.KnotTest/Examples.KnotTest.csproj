@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="MainGame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -46,6 +47,10 @@
     <ProjectReference Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\MonoGame.Framework.SDL2.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
       <Name>MonoGame.Framework.SDL2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\Knot3\Framework\Knot3.Framework-MG.csproj">
+      <Project>{C2868E88-721C-40EB-863B-E9272F95DAF1}</Project>
+      <Name>Knot3.Framework-MG</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

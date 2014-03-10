@@ -27,14 +27,33 @@
  *
  * See the LICENSE file for full license details of the Knot3 project.
  */
-
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Knot3.Framework.Core;
 
-namespace MonoGame.GLSL
+namespace Examples.KnotTest
 {
-    internal enum ShaderStage {
-        Vertex,
-        Pixel,
+    public class MainGame : GameCore
+    {
+        public MainGame ()
+        : base ()
+        {
+            Window.Title = "Shader Test Game";
+        }
+
+        /// <summary>
+        /// Initialisiert die Attribute dieser Klasse.
+        /// </summary>
+        protected override void Initialize ()
+        {
+            // base method
+            base.Initialize ();
+
+            // vsync
+            VSync = true;
+
+            // fullscreen
+            IsFullScreen = false;
+        }
     }
 }

@@ -31,13 +31,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Examples
+namespace Examples.ConsoleTest
 {
     class MainClass
     {
         public static void Main (string[] args)
         {
-            Console.WriteLine ("Hello World!");
+            MainGame game = new MainGame ();
+            game.Run ();
         }
     }
 }
