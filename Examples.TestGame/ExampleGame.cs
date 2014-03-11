@@ -59,6 +59,9 @@ namespace Examples.TestGame
             // audio
             AudioManager = new SilentAudioManager (game: this);
             AudioManager.Initialize ();
+
+            // no error screens
+            ErrorScreenEnabled = false;
         }
 
         public override IScreen DefaultScreen { get { return new ExampleScreen (this); } }

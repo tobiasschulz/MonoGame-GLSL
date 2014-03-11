@@ -43,10 +43,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MonoGame.GLSL\MonoGame.GLSL.csproj">
-      <Project>{1E80BCE1-545A-4DD5-9206-281515B08E75}</Project>
-      <Name>MonoGame.GLSL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\MonoGame.Framework.SDL2.csproj">
       <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
       <Name>MonoGame.Framework.SDL2</Name>
@@ -54,6 +50,10 @@
     <ProjectReference Include="..\ThirdParty\Knot3\Framework\Knot3.Framework-MG.csproj">
       <Project>{C2868E88-721C-40EB-863B-E9272F95DAF1}</Project>
       <Name>Knot3.Framework-MG</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\MonoGame-SDL2\MonoGame.GLSL\MonoGame.GLSL.csproj">
+      <Project>{1E80BCE1-545A-4DD5-9206-281515B08E75}</Project>
+      <Name>MonoGame.GLSL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -67,5 +67,7 @@
     <None Include="Content\Models\test.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\Shader\pixel1.glfx" />
+    <None Include="Content\Shader\vertex1.glfx" />
   </ItemGroup>
 </Project>

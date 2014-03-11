@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.ConsoleTest", "Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.TestGame", "Examples.TestGame\Examples.TestGame.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.GLSL", "MonoGame.GLSL\MonoGame.GLSL.csproj", "{1E80BCE1-545A-4DD5-9206-281515B08E75}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheoraPlay-CS", "ThirdParty\MonoGame-SDL2\ThirdParty\TheoraPlay#\TheoraPlay-CS.csproj", "{47CF0C2E-3710-4188-BB11-30D248B2B5FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDL2-CS", "ThirdParty\MonoGame-SDL2\ThirdParty\SDL2#\SDL2-CS.csproj", "{85480198-8711-4355-830E-72FD794AD3F6}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knot3.Framework-MG", "ThirdParty\Knot3\Framework\Knot3.Framework-MG.csproj", "{C2868E88-721C-40EB-863B-E9272F95DAF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OggSharp", "ThirdParty\Knot3\ThirdParty\OggSharp\OggSharp\OggSharp.csproj", "{F8C66EB3-E81D-45FB-B28E-747BE332230F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.GLSL", "ThirdParty\MonoGame-SDL2\MonoGame.GLSL\MonoGame.GLSL.csproj", "{1E80BCE1-545A-4DD5-9206-281515B08E75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
