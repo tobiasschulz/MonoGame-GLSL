@@ -68,9 +68,17 @@ namespace Examples.TestGame
             effect.World = model.WorldMatrix * camera.WorldMatrix;
             effect.View = camera.ViewMatrix;
             effect.Projection = camera.ProjectionMatrix;
-            //effect.Parameters.SetMatrix ("WorldViewProjection", model.WorldMatrix * camera.WorldMatrix * camera.ViewMatrix * camera.ProjectionMatrix);
+            effect.Parameters.SetMatrix ("WorldViewProjection", camera.ProjectionMatrix * camera.ViewMatrix * camera.WorldMatrix);
 
             // das Modell zeichnen
+            foreach (ModelMesh mesh in model.Model.Meshes) {
+                foreach (ModelMeshPart part in mesh.MeshParts) {
+                    if (part.Effect is BasicEffect) {
+                        ModifyBasicEffect (part.Effect as BasicEffect, model);
+                    }
+                }
+            }
+            
             effect.Draw (model.Model);
 
             // Setze den Viewport wieder auf den ganzen Screen
