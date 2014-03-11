@@ -68,6 +68,7 @@ namespace Examples.TestGame
             effect.World = model.WorldMatrix * camera.WorldMatrix;
             effect.View = camera.ViewMatrix;
             effect.Projection = camera.ProjectionMatrix;
+            effect.Parameters.SetMatrix ("WorldViewProjection", model.WorldMatrix * camera.WorldMatrix * camera.ViewMatrix * camera.ProjectionMatrix);
 
             // das Modell zeichnen
             effect.Draw (model.Model);
