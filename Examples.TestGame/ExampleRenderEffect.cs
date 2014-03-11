@@ -43,10 +43,15 @@ namespace Examples.TestGame
     public class ExampleRenderEffect : RenderEffect
     {
         private GLEffect effect;
+        Effect pascalEffect;
+
 
         public ExampleRenderEffect (IScreen screen)
             : base (screen)
         {
+            pascalEffect = screen.LoadEffect ("OpaqueShader");
+
+
             string pixelShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "pixel1.glfx";
             string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "vertex1.glfx";
 
