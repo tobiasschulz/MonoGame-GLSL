@@ -45,12 +45,13 @@ namespace Examples.TestGame
         public ExampleScreen (GameCore game)
             : base(game)
         {
-            BackgroundColor = Color.CornflowerBlue;
+            //BackgroundColor = Color.CornflowerBlue;
 
             IRenderEffect glEffect = new ExampleRenderEffect (screen: this);
-
+            //this.PostProcessingEffect = glEffect;
 
             world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, effect: glEffect, bounds: Bounds);
+            //world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, bounds: Bounds);
             world.Camera.Position = new Vector3 (500, 200, 500);
             world.Camera.Target = new Vector3 (0, 0, 0);
             

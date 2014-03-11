@@ -36,6 +36,7 @@ using Knot3.Framework.Platform;
 using System.IO;
 using Knot3.Framework.Effects;
 using MonoGame.GLSL;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Examples.TestGame
 {
@@ -56,22 +57,24 @@ namespace Examples.TestGame
             );
         }
 
-        protected override void DrawRenderTarget (GameTime GameTime)
-        {
-            spriteBatch.Draw (RenderTarget, Vector2.Zero, Color.White);
-        }
-
         public override void DrawModel (GameModel model, GameTime time)
         {
+            // Setze den Viewport auf den der aktuellen Spielwelt
+            Viewport original = screen.Viewport;
+            screen.Viewport = model.World.Viewport;
+
             // die aktuellen Matrizen setzen
             Camera camera = model.World.Camera;
             effect.World = model.WorldMatrix * camera.WorldMatrix;
             effect.View = camera.ViewMatrix;
             effect.Projection = camera.ProjectionMatrix;
-            effect.Parameters.SetMatrix ("WorldViewProjection", model.WorldMatrix * camera.WorldMatrix * camera.ViewMatrix * camera.ProjectionMatrix);
+            //effect.Parameters.SetMatrix ("WorldViewProjection", model.WorldMatrix * camera.WorldMatrix * camera.ViewMatrix * camera.ProjectionMatrix);
 
             // das Modell zeichnen
             effect.Draw (model.Model);
+
+            // Setze den Viewport wieder auf den ganzen Screen
+            screen.Viewport = original;
         }
     }
 }
