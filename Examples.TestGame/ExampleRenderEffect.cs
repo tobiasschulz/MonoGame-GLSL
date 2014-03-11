@@ -51,7 +51,7 @@ namespace Examples.TestGame
             string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "vertex1.glfx";
 
             effect = GLEffect.FromFiles (
-                device: screen.GraphicsDevice,
+                graphicsDevice: screen.GraphicsDevice,
                 pixelShaderFilename: pixelShaderFilename,
                 vertexShaderFilename: vertexShaderFilename
             );
