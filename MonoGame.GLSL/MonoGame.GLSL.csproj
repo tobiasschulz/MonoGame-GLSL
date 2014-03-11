@@ -40,21 +40,6 @@
     <Compile Include="ShaderProgramCache.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="ShaderStage.cs" />
-    <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\IndexBuffer.cs">
-      <Link>MonoGame\Graphics\Vertices\IndexBuffer.cs</Link>
-    </Compile>
-    <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexBuffer.cs">
-      <Link>MonoGame\Graphics\Vertices\VertexBuffer.cs</Link>
-    </Compile>
-    <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexBufferBinding.cs">
-      <Link>MonoGame\Graphics\Vertices\VertexBufferBinding.cs</Link>
-    </Compile>
-    <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\Vertices\VertexDeclaration.cs">
-      <Link>MonoGame\Graphics\Vertices\VertexDeclaration.cs</Link>
-    </Compile>
-    <Compile Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\Graphics\GraphicsResource.cs">
-      <Link>MonoGame\Graphics\GraphicsResource.cs</Link>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
