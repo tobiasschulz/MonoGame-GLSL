@@ -37,8 +37,9 @@ namespace Examples.TestGame
     {
         public static void Main (string[] args)
         {
-            ExampleGame game = new ExampleGame ();
-            game.Run ();
+            //ExampleGame game = new ExampleGame ();
+            //game.Run ();
+            new XnaTest ().Run ();
         }
     }
 }

@@ -56,7 +56,6 @@ namespace Examples.TestGame
             string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "vertex1.glfx";
 
             effect = GLEffect.FromFiles (
-                graphicsDevice: screen.GraphicsDevice,
                 pixelShaderFilename: pixelShaderFilename,
                 vertexShaderFilename: vertexShaderFilename
             );
@@ -65,12 +64,13 @@ namespace Examples.TestGame
         public override void DrawModel (GameModel model, GameTime time)
         {
             // Setze den Viewport auf den der aktuellen Spielwelt
-            Viewport original = screen.Viewport;
-            screen.Viewport = model.World.Viewport;
+            //Viewport original = screen.Viewport;
+            //screen.Viewport = model.World.Viewport;
+            Console.WriteLine ("fuck: "+model.World);
 
             // die aktuellen Matrizen setzen
             Camera camera = model.World.Camera;
-            effect.World = model.WorldMatrix * camera.WorldMatrix;
+            effect.World = camera.WorldMatrix;
             effect.View = camera.ViewMatrix;
             effect.Projection = camera.ProjectionMatrix;
             effect.Parameters.SetMatrix ("WorldViewProjection", camera.ProjectionMatrix * camera.ViewMatrix * camera.WorldMatrix);
@@ -87,7 +87,7 @@ namespace Examples.TestGame
             effect.Draw (model.Model);
 
             // Setze den Viewport wieder auf den ganzen Screen
-            screen.Viewport = original;
+            //screen.Viewport = original;
         }
     }
 }

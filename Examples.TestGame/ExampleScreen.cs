@@ -41,13 +41,15 @@ namespace Examples.TestGame
     public class ExampleScreen : Screen
     {
         private World world;
+        public ExampleModel model;
+        public IRenderEffect glEffect;
 
         public ExampleScreen (GameCore game)
             : base(game)
         {
             //BackgroundColor = Color.CornflowerBlue;
 
-            IRenderEffect glEffect = new ExampleRenderEffect (screen: this);
+            glEffect = new ExampleRenderEffect (screen: this);
             //this.PostProcessingEffect = glEffect;
 
             world = new World (screen: this, drawOrder: DisplayLayer.GameWorld, effect: glEffect, bounds: Bounds);
@@ -57,7 +59,7 @@ namespace Examples.TestGame
             
             Log.Message ("Content Directory: ", Path.GetFullPath (SystemInfo.RelativeContentDirectory));
             ExampleModelInfo modelInfo = new ExampleModelInfo (modelname: "test") { Scale = Vector3.One / 10 };
-            ExampleModel model = new ExampleModel (screen: this, info: modelInfo);
+            model = new ExampleModel (screen: this, info: modelInfo);
             world.Add (obj: model);
         }
 

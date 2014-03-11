@@ -31,6 +31,8 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Knot3.Framework.Core;
 using Knot3.Framework.Audio;
+using Microsoft.Xna.Framework;
+using Knot3.Framework.Effects;
 
 namespace Examples.TestGame
 {

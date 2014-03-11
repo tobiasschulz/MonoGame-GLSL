@@ -40,6 +40,7 @@
     <Compile Include="ExampleScreen.cs" />
     <Compile Include="ExampleModel.cs" />
     <Compile Include="ExampleRenderEffect.cs" />
+    <Compile Include="XnaTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,5 +70,7 @@
     </None>
     <None Include="Content\Shader\pixel1.glfx" />
     <None Include="Content\Shader\vertex1.glfx" />
+    <None Include="Content\Shader\flat-color.frag" />
+    <None Include="Content\Shader\flat-color.vert" />
   </ItemGroup>
 </Project>
