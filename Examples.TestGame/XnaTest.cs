@@ -69,6 +69,7 @@ namespace Examples.TestGame
         protected override void Draw (GameTime time)
         {
             //GLEffect.ApplyState (GraphicsDevice);
+            GLEffect.GraphicsDevice = GraphicsDevice;
             GraphicsDevice.Clear (Color.Green);
             effect.Draw (model);
 
