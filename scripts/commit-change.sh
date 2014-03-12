@@ -1,7 +1,7 @@
 cd ThirdParty/MonoGame-SDL2/
 git commit -a
+git branch --set-upstream-to=origin/mgsdl2-glshader
 git pull
-git pull origin mgsdl2-glshader -u
 git push origin mgsdl2-glshader
 cd ../..
 
