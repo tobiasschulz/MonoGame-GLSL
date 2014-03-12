@@ -70,5 +70,8 @@
     <None Include="Content\Shader\vertex1.glfx" />
     <None Include="Content\Shader\flat-color.frag" />
     <None Include="Content\Shader\flat-color.vert" />
+    <None Include="Content\Shader\hlsl.fx" />
+    <None Include="Content\Shader\hlsl.glfx" />
+    <None Include="Content\Shader\hlsl.mgfx" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Platform;
+using System.IO;
 
 namespace Examples.TestGame
 {
@@ -31,27 +32,19 @@ namespace Examples.TestGame
         private Matrix World;
         private Matrix View;
         private Matrix Projection;
-        private Effect convertedHLSL;
+        private Effect shader1;
+        private Effect shader2;
 
         protected override void LoadContent()
         {
-            model = Content.Load<Model>("sphere");
+            model = Content.Load<Model>("Models/sphere");
 
-            convertedHLSL = new Effect(
+            string shader1Path = SystemInfo.RelativeContentDirectory + "Shader/hlsl";
+            shader1 = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllBytes(SystemInfo.RelativeContentDirectory + "Shader/OpaqueShader_3.1.mgfx"),
-                effectName: "hlsl"
+                effectCode: File.ReadAllBytes(shader1Path + ".mgfx"),
+                effectName: "shader1"
             );
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (ModelMeshPart part in mesh.MeshParts)
-                {
-                    part.Effect = convertedHLSL;
-                }
-            }
-
-            string pixelShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "flat-color.frag";
-            string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "flat-color.vert";
 
             Vector3 position = new Vector3(10, 10, 10);
             Vector3 target = Vector3.Zero;
@@ -64,52 +57,51 @@ namespace Examples.TestGame
             View = Matrix.CreateLookAt(position, target, up);
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
 
-            convertedHLSL.Parameters["World"].SetValue(World);
-            convertedHLSL.Parameters["View"].SetValue(View);
-            convertedHLSL.Parameters["Projection"].SetValue(Projection);
+            shader1.Parameters["World"].SetValue(World);
+            shader1.Parameters["View"].SetValue(View);
+            shader1.Parameters["Projection"].SetValue(Projection);
 
-            convertedHLSL.Parameters["color1"].SetValue(Color.Yellow.ToVector4());
-            convertedHLSL.Parameters["color2"].SetValue(Color.Red.ToVector4());
-
+            shader1.Parameters["color1"].SetValue(Color.Yellow.ToVector4());
+            shader1.Parameters["color2"].SetValue(Color.Red.ToVector4());
 
             /*
-            effect = GLEffect.FromFiles (
-                pixelShaderFilename: pixelShaderFilename,
-                vertexShaderFilename: vertexShaderFilename
-            );
-            effect.World = Matrix.Identity;
-            effect.View = Matrix.CreateLookAt (position, target, up);
-            ;
-            effect.Projection = Matrix.CreatePerspectiveFieldOfView (MathHelper.ToRadians (60), aspectRatio, nearPlane, farPlane);
-            effect.Parameters.SetMatrix ("MVP", effect.Projection * effect.View * effect.World);
-
-            Matrix mat = effect.Projection * effect.View * effect.World;
-            Console.WriteLine ("mat4(");
-            Console.WriteLine ("    vec4(" + mat.M11 + ", " + mat.M12 + ", " + mat.M13 + ", " + mat.M14 + "),");
-            Console.WriteLine ("    vec4(" + mat.M21 + ", " + mat.M22 + ", " + mat.M23 + ", " + mat.M24 + "),");
-            Console.WriteLine ("    vec4(" + mat.M31 + ", " + mat.M32 + ", " + mat.M33 + ", " + mat.M34 + "),");
-            Console.WriteLine ("    vec4(" + mat.M41 + ", " + mat.M42 + ", " + mat.M43 + ", " + mat.M44 + ")");
-            Console.WriteLine (")");
-
-*/
-
             foreach (var pair in EffectUtilities.ReadableEffectCode)
             {
                 Log.Message("ReadableEffectCode(", pair.Key, "):");
                 Log.Message(pair.Value);
-            }
+            }*/
+
+            // Write human-readable effect code to file
+            File.WriteAllText(shader1Path + ".glfx", shader1.EffectCode);
+
+            // Construct a new shader by loading the human-readable effect code
+            /*shader2 = new Effect(
+                graphicsDevice: GraphicsDevice,
+                effectCode: System.IO.File.ReadAllText(shader1Path + ".glfx"),
+                effectName: "shader2"
+            );*/
         }
 
         protected override void Draw(GameTime time)
         {
-            //GLEffect.GraphicsDevice = GraphicsDevice;
-            //GraphicsDevice.Clear (Color.Green);
-            //effect.Draw (model);
             GraphicsDevice.Clear(Color.BlanchedAlmond);
 
+            RemapModel(model, shader1);
             foreach (ModelMesh mesh in model.Meshes)
             {
                 mesh.Draw();
+            }
+        }
+
+        private void RemapModel(Model model, Effect effect)
+        {
+            
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    part.Effect = effect;
+                }
             }
         }
     }
