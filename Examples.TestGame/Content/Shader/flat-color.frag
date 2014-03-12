@@ -1,6 +1,6 @@
 #version 130
 
-precision mediump int;
+precision highp int;
 precision highp float;
 
 out vec4 FragColor;

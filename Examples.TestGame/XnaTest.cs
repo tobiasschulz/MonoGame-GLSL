@@ -73,35 +73,6 @@ namespace Examples.TestGame
             effect.Draw (model);
 
         }
-
-        private void Bullshit() {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            
-
-            GL.EnableVertexAttribArray(0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-
-            GL.DrawArrays(BeginMode.Triangles, 0, 3);
-
-            GL.DisableVertexAttribArray(0);
-        }
-        int vbo;
-        void CreateVertexBuffer()
-        {
-            OpenTK.Vector3[] vertices = new OpenTK.Vector3[3];
-            vertices[0] = new OpenTK.Vector3(-1f, -1f, 0f);
-            vertices[1] = new OpenTK.Vector3( 1f, -1f, 0f);
-            vertices[2] = new OpenTK.Vector3( 0f,  1f, 0f);
-
-            GL.GenBuffers(1, out vbo);
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vbo);
-            GL.BufferData<OpenTK.Vector3>(BufferTarget.ArrayBuffer,
-                                   new IntPtr(vertices.Length * OpenTK.Vector3.SizeInBytes),
-                                   vertices, BufferUsageHint.StaticDraw);
-        }
-
     }
 }
 
