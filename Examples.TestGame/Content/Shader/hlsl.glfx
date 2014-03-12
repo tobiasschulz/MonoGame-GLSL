@@ -1,5 +1,5 @@
-#monogame ConstantBuffer(name=ps_uniforms_vec4, sizeInBytes=32, parameters=[0, 1], offsets=[0, 16])
-#monogame ConstantBuffer(name=vs_uniforms_vec4, sizeInBytes=192, parameters=[2, 3, 4], offsets=[0, 64, 128])
+#monogame ConstantBuffer(name=ps_uniforms_vec4; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
+#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=192; parameters=[2, 3, 4]; offsets=[0, 64, 128])
 
 #monogame BeginShader(stage=pixel)
 #monogame ConstantBuffers [0]
@@ -27,7 +27,7 @@ void main()
 
 #monogame BeginShader(stage=vertex)
 #monogame ConstantBuffers [1]
-#monogame Attribute(name=vs_v0, usage=Position, index=0, format=0)
+#monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
 
 #ifdef GL_ES
 precision highp float;
@@ -74,10 +74,10 @@ void main()
 
 #monogame EndShader
 
-#monogame EffectParameter(name=color1, class=Vector, type=Single, semantic=, rows=1, columns=4, elements=[], structMembers=[])
-#monogame EffectParameter(name=color2, class=Vector, type=Single, semantic=, rows=1, columns=4, elements=[], structMembers=[])
-#monogame EffectParameter(name=World, class=Matrix, type=Single, semantic=, rows=4, columns=4, elements=[], structMembers=[])
-#monogame EffectParameter(name=View, class=Matrix, type=Single, semantic=, rows=4, columns=4, elements=[], structMembers=[])
-#monogame EffectParameter(name=Projection, class=Matrix, type=Single, semantic=, rows=4, columns=4, elements=[], structMembers=[])
-#monogame EffectPass(name=Pass1, vertexShader=1, pixelShader=0)
+#monogame EffectParameter(name=color1; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=color2; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=World; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectPass(name=Pass1; vertexShader=1; pixelShader=0)
 #monogame EffectTechnique(name=Technique1)

@@ -75,11 +75,11 @@ namespace Examples.TestGame
             File.WriteAllText(shader1Path + ".glfx", shader1.EffectCode);
 
             // Construct a new shader by loading the human-readable effect code
-            /*shader2 = new Effect(
+            shader2 = new Effect(
                 graphicsDevice: GraphicsDevice,
                 effectCode: System.IO.File.ReadAllText(shader1Path + ".glfx"),
                 effectName: "shader2"
-            );*/
+            );
         }
 
         protected override void Draw(GameTime time)
