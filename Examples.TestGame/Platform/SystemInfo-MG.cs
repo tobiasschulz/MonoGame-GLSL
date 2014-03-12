@@ -27,19 +27,39 @@
  *
  * See the LICENSE file for full license details of the Knot3 project.
  */
-
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
-namespace Examples.TestGame
+namespace Platform
 {
-    class MainClass
+    public static partial class SystemInfo
     {
-        public static void Main (string[] args)
+        public static bool IsRunningOnMono()
         {
-            //ExampleGame game = new ExampleGame ();
-            //game.Run ();
-            new TestGame ().Run ();
+            return Type.GetType("Mono.Runtime") != null;
+        }
+
+        public static bool IsRunningOnMonogame()
+        {
+            return true;
+        }
+
+        public static bool IsRunningOnLinux()
+        {
+            return Environment.OSVersion.Platform == PlatformID.Unix;
+        }
+
+        public static bool IsRunningOnWindows()
+        {
+            return !IsRunningOnLinux();
         }
     }
 }

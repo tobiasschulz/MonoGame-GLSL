@@ -1,17 +1,16 @@
 using System;
 using Microsoft.Xna.Framework;
-using Knot3.Framework.Platform;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.GLSL;
 using OpenTK.Graphics.OpenGL;
+using Platform;
 
 namespace Examples.TestGame
 {
-    public class XnaTest : Game
+    public class TestGame : Game
     {
         private GraphicsDeviceManager Graphics;
 
-        public XnaTest ()
+        public TestGame ()
         {
             
             Graphics = new GraphicsDeviceManager (this);
@@ -27,8 +26,7 @@ namespace Examples.TestGame
             Content.RootDirectory = SystemInfo.RelativeContentDirectory;
             Window.Title = "Xna Test";
         }
-        
-        private GLEffect effect;
+
         private Model model;
 
         protected override void LoadContent ()
@@ -44,7 +42,8 @@ namespace Examples.TestGame
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
             float nearPlane = 0.5f;
             float farPlane = 1000.0f;
-            Console.WriteLine ("fuck");
+
+            /*
             effect = GLEffect.FromFiles (
                 pixelShaderFilename: pixelShaderFilename,
                 vertexShaderFilename: vertexShaderFilename
@@ -63,15 +62,14 @@ namespace Examples.TestGame
             Console.WriteLine ("    vec4(" + mat.M41 + ", " + mat.M42 + ", " + mat.M43 + ", " + mat.M44 + ")");
             Console.WriteLine (")");
 
-            //CreateVertexBuffer ();
+*/
         }
 
         protected override void Draw (GameTime time)
         {
-            //GLEffect.ApplyState (GraphicsDevice);
-            GLEffect.GraphicsDevice = GraphicsDevice;
-            GraphicsDevice.Clear (Color.Green);
-            effect.Draw (model);
+            //GLEffect.GraphicsDevice = GraphicsDevice;
+            //GraphicsDevice.Clear (Color.Green);
+            //effect.Draw (model);
 
         }
     }

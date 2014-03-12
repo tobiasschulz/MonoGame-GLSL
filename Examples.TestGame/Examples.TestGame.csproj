@@ -32,11 +32,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="XnaTest.cs" />
+    <Compile Include="TestGame.cs" />
+    <Compile Include="Platform\Log.cs" />
+    <Compile Include="Platform\SystemInfo.cs" />
+    <Compile Include="Platform\SystemInfo-MG.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -52,6 +57,7 @@
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Content\Models\" />
+    <Folder Include="Platform\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Models\enemy_0.xnb">
