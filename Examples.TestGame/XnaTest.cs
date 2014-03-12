@@ -72,7 +72,16 @@ namespace Examples.TestGame
             GraphicsDevice.Clear (Color.Green);
             effect.Draw (model);
 
+            if (first) {
+                first = false;
+
+                foreach (var pair in Effect.ReadableEffectFormat) {
+                    Console.WriteLine ("ReadableEffectFormat: "+pair.Key);
+                    Console.WriteLine (pair.Value);
+                }
+            }
         }
+        bool first=true;
 
         private void Bullshit() {
             GL.Clear(ClearBufferMask.ColorBufferBit);
