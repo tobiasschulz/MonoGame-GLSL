@@ -56,6 +56,10 @@
       <Project>{1E80BCE1-545A-4DD5-9206-281515B08E75}</Project>
       <Name>MonoGame.GLSL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdParty\MonoGame-SDL2\ThirdParty\SDL2#\SDL2-CS.csproj">
+      <Project>{85480198-8711-4355-830E-72FD794AD3F6}</Project>
+      <Name>SDL2-CS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />

@@ -3,10 +3,9 @@
 precision mediump int;
 precision highp float;
 
-uniform vec4 Diffuse;
 out vec4 FragColor;
 
 void main()
 {
-	FragColor = Diffuse;
+	FragColor = vec4(0.7,0.4,0.1,1.0);
 }
