@@ -44,7 +44,18 @@ namespace Examples.TestGame
                 graphicsDevice: GraphicsDevice,
                 effectCode: File.ReadAllBytes(shader1Path + ".mgfx"),
                 effectName: "shader1"
-            );
+                );
+
+            // Write human-readable effect code to file
+            File.WriteAllText(shader1Path + ".glfx", shader1.EffectCode);
+
+            // Construct a new shader by loading the human-readable effect code
+            shader2 = new Effect(
+                graphicsDevice: GraphicsDevice,
+                effectCode: System.IO.File.ReadAllText(shader1Path + ".glfx"),
+                effectName: "shader2"
+                );
+            shader1 = shader2;
 
             Vector3 position = new Vector3(10, 10, 10);
             Vector3 target = Vector3.Zero;
@@ -70,16 +81,6 @@ namespace Examples.TestGame
                 Log.Message("ReadableEffectCode(", pair.Key, "):");
                 Log.Message(pair.Value);
             }*/
-
-            // Write human-readable effect code to file
-            File.WriteAllText(shader1Path + ".glfx", shader1.EffectCode);
-
-            // Construct a new shader by loading the human-readable effect code
-            shader2 = new Effect(
-                graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shader1Path + ".glfx"),
-                effectName: "shader2"
-            );
         }
 
         protected override void Draw(GameTime time)
