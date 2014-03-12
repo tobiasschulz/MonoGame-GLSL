@@ -83,10 +83,20 @@ namespace Examples.TestGame
             }*/
         }
 
+        Vector4 color = Color.Blue.ToVector4();
+
         protected override void Draw(GameTime time)
         {
             GraphicsDevice.Clear(Color.BlanchedAlmond);
+            
+            color.Z = ((color.Z*1000 + 5)%1000) / 1000;
+            color.W = ((color.W*1000 + 2)%1000) / 1000;
+            color.X = ((color.X*1000 + 8)%1000) / 1000;
+            color.Y = ((color.Y*1000 + 12)%1000) / 1000;
+            Console.WriteLine(color);
 
+            shader1.Parameters["color1"].SetValue(color);
+            shader1.Parameters["color2"].SetValue(color);
             RemapModel(model, shader1);
             foreach (ModelMesh mesh in model.Meshes)
             {
