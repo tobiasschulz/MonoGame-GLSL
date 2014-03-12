@@ -10,16 +10,16 @@ namespace Examples.TestGame
     {
         private GraphicsDeviceManager Graphics;
 
-        public TestGame ()
+        public TestGame()
         {
             
-            Graphics = new GraphicsDeviceManager (this);
+            Graphics = new GraphicsDeviceManager(this);
 
             Graphics.PreferredBackBufferWidth = 600;
             Graphics.PreferredBackBufferHeight = 480;
 
             Graphics.IsFullScreen = false;
-            Graphics.ApplyChanges ();
+            Graphics.ApplyChanges();
 
             IsMouseVisible = true;
 
@@ -28,20 +28,49 @@ namespace Examples.TestGame
         }
 
         private Model model;
+        private Matrix World;
+        private Matrix View;
+        private Matrix Projection;
+        private Effect convertedHLSL;
 
-        protected override void LoadContent ()
+        protected override void LoadContent()
         {
-            model = Content.Load<Model> ("sphere");
+            model = Content.Load<Model>("sphere");
+
+            convertedHLSL = new Effect(
+                graphicsDevice: GraphicsDevice,
+                effectCode: System.IO.File.ReadAllBytes(SystemInfo.RelativeContentDirectory + "Shader/OpaqueShader_3.1.mgfx"),
+                effectName: "hlsl"
+            );
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    part.Effect = convertedHLSL;
+                }
+            }
 
             string pixelShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "flat-color.frag";
             string vertexShaderFilename = SystemInfo.RelativeContentDirectory + "Shader" + SystemInfo.PathSeparator + "flat-color.vert";
 
-            Vector3 position = new Vector3 (20, 10, 20);
+            Vector3 position = new Vector3(10, 10, 10);
             Vector3 target = Vector3.Zero;
             Vector3 up = Vector3.Up;
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
             float nearPlane = 0.5f;
             float farPlane = 1000.0f;
+            
+            World = Matrix.Identity;
+            View = Matrix.CreateLookAt(position, target, up);
+            Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
+
+            convertedHLSL.Parameters["World"].SetValue(World);
+            convertedHLSL.Parameters["View"].SetValue(View);
+            convertedHLSL.Parameters["Projection"].SetValue(Projection);
+
+            convertedHLSL.Parameters["color1"].SetValue(Color.Yellow.ToVector4());
+            convertedHLSL.Parameters["color2"].SetValue(Color.Red.ToVector4());
+
 
             /*
             effect = GLEffect.FromFiles (
@@ -63,14 +92,25 @@ namespace Examples.TestGame
             Console.WriteLine (")");
 
 */
+
+            foreach (var pair in EffectUtilities.ReadableEffectCode)
+            {
+                Log.Message("ReadableEffectCode(", pair.Key, "):");
+                Log.Message(pair.Value);
+            }
         }
 
-        protected override void Draw (GameTime time)
+        protected override void Draw(GameTime time)
         {
             //GLEffect.GraphicsDevice = GraphicsDevice;
             //GraphicsDevice.Clear (Color.Green);
             //effect.Draw (model);
+            GraphicsDevice.Clear(Color.BlanchedAlmond);
 
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                mesh.Draw();
+            }
         }
     }
 }
