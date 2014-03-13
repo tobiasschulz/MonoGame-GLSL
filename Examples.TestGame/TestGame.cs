@@ -33,29 +33,40 @@ namespace Examples.TestGame
         private Matrix View;
         private Matrix Projection;
         private Effect shader1;
+        private Effect shader1_gl;
         private Effect shader2;
+        private Effect currentShader;
 
         protected override void LoadContent()
         {
             model = Content.Load<Model>("Models/sphere");
 
-            string shader1Path = SystemInfo.RelativeContentDirectory + "Shader/shader1";
+            string shaderPath = SystemInfo.RelativeContentDirectory + "Shader/";
             shader1 = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: File.ReadAllBytes(shader1Path + ".mgfx"),
+                effectCode: File.ReadAllBytes(shaderPath + "shader1.mgfx"),
                 effectName: "shader1"
                 );
 
             // Write human-readable effect code to file
-            File.WriteAllText(shader1Path + ".glfx", shader1.EffectCode);
+            File.WriteAllText(shaderPath + "shader1.glfx_gen", shader1.EffectCode);
+
+            // Construct a new shader by loading the human-readable effect code
+            shader1_gl = new Effect(
+                graphicsDevice: GraphicsDevice,
+                effectCode: System.IO.File.ReadAllText(shaderPath + "shader1.glfx_gen"),
+                effectName: "shader1_gl"
+                );
 
             // Construct a new shader by loading the human-readable effect code
             shader2 = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shader1Path + ".glfx"),
+                effectCode: System.IO.File.ReadAllText(shaderPath + "shader2.glfx"),
                 effectName: "shader2"
                 );
-            shader1 = shader2;
+            
+            currentShader = shader1_gl;
+            currentShader = shader2;
 
             Vector3 position = new Vector3(10, 10, 10);
             Vector3 target = Vector3.Zero;
@@ -67,20 +78,6 @@ namespace Examples.TestGame
             World = Matrix.Identity;
             View = Matrix.CreateLookAt(position, target, up);
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
-
-            shader1.Parameters["World"].SetValue(World);
-            shader1.Parameters["View"].SetValue(View);
-            shader1.Parameters["Projection"].SetValue(Projection);
-
-            shader1.Parameters["color1"].SetValue(Color.Yellow.ToVector4());
-            shader1.Parameters["color2"].SetValue(Color.Red.ToVector4());
-
-            /*
-            foreach (var pair in EffectUtilities.ReadableEffectCode)
-            {
-                Log.Message("ReadableEffectCode(", pair.Key, "):");
-                Log.Message(pair.Value);
-            }*/
         }
 
         Vector4 color = Color.Blue.ToVector4();
@@ -98,6 +95,12 @@ namespace Examples.TestGame
 
             shader1.Parameters["color1"].SetValue(color);
             shader1.Parameters["color2"].SetValue(color);
+            
+
+            shader1.Parameters["World"].SetValue(World);
+            shader1.Parameters["View"].SetValue(View);
+            shader1.Parameters["Projection"].SetValue(Projection);
+
             RemapModel(model, shader1);
             foreach (ModelMesh mesh in model.Meshes)
             {
