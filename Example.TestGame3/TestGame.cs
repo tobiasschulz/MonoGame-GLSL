@@ -1,36 +1,47 @@
+/*
+ * Copyright (c) 2013-2014 Tobias Schulz
+ *
+ * Copying, redistribution and use of the source code in this file in source
+ * and binary forms, with or without modification, are permitted provided
+ * that the conditions of the MIT license are met.
+ */
+
 using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using OpenTK.Graphics.OpenGL;
-using Platform;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-namespace Examples.TestGame
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+using OpenTK.Graphics.OpenGL;
+using Platform;
+
+namespace Examples.TestGame3
 {
     public class TestGame : Game
     {
         private GraphicsDeviceManager Graphics;
 
-        public TestGame()
+        public TestGame ()
         {
-            
-            Graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager (this);
 
             Graphics.PreferredBackBufferWidth = 600;
             Graphics.PreferredBackBufferHeight = 480;
 
             Graphics.IsFullScreen = false;
-            Graphics.ApplyChanges();
+            Graphics.ApplyChanges ();
 
             IsMouseVisible = true;
 
             Content.RootDirectory = SystemInfo.RelativeContentDirectory;
             Window.Title = "Xna Test";
         }
-        
+
         private Model model1;
         private Model model2;
         private Model model3;
+        private Cylinder cylinder1;
         private Matrix World;
         private Matrix View;
         private Matrix Projection;
@@ -42,33 +53,34 @@ namespace Examples.TestGame
         private Vector3 position;
         private Vector3 target;
 
-        protected override void LoadContent()
+        protected override void LoadContent ()
         {
             model1 = Content.Load<Model>("Models/test");
             model2 = Content.Load<Model>("Models/sphere");
             model3 = Content.Load<Model>("Models/pipe-straight");
+            cylinder1 = new Cylinder (device: GraphicsDevice, height: 2f, diameter: 0.5f, tessellation: 64);
 
             string shaderPath = SystemInfo.RelativeContentDirectory + "Shader/";
-            shader3 = new Effect(
+            shader3 = new Effect (
                 graphicsDevice: GraphicsDevice,
-                effectCode: File.ReadAllBytes(shaderPath + "shader3.mgfx"),
+                effectCode: File.ReadAllBytes (shaderPath + "shader3.mgfx"),
                 effectName: "shader3"
             );
 
             // Write human-readable effect code to file
-            File.WriteAllText(shaderPath + "shader3.glfx_gen", shader3.EffectCode);
+            File.WriteAllText (shaderPath + "shader3.glfx_gen", shader3.EffectCode);
 
             // Construct a new shader by loading the human-readable effect code
-            shader3_gl = new Effect(
+            shader3_gl = new Effect (
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shaderPath + "shader3.glfx_gen"),
+                effectCode: System.IO.File.ReadAllText (shaderPath + "shader3.glfx_gen"),
                 effectName: "shader3_gl"
             );
 
             // Construct a new shader by loading the human-readable effect code
-            shader4 = new Effect(
+            shader4 = new Effect (
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shaderPath + "shader4.glfx"),
+                effectCode: System.IO.File.ReadAllText (shaderPath + "shader4.glfx"),
                 effectName: "shader4"
             );
 
@@ -78,99 +90,109 @@ namespace Examples.TestGame
             //currentShader = shader4;
 
             string texturePath = SystemInfo.RelativeContentDirectory + "Textures/";
-            FileStream stream = new FileStream(texturePath + "texture2.png", FileMode.Open);
-            texture = Texture2D.FromStream(GraphicsDevice, stream);
+            FileStream stream = new FileStream (texturePath + "texture1.png", FileMode.Open);
+            texture = Texture2D.FromStream (GraphicsDevice, stream);
 
-
-            position = new Vector3(15, 0, 15);
+            position = (Vector3.Right + Vector3.Backward) * 15f;
             target = Vector3.Zero;
             Vector3 up = Vector3.Up;
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
             float nearPlane = 0.5f;
             float farPlane = 1000.0f;
-            
+
             World = Matrix.Identity;
-            View = Matrix.CreateLookAt(position, target, up);
-            Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
+            View = Matrix.CreateLookAt (position, target, up);
+            Projection = Matrix.CreatePerspectiveFieldOfView (MathHelper.ToRadians (60), aspectRatio, nearPlane, farPlane);
+
+            modelScale [0] = Vector3.One * 0.002f;
+            modelScale [1] = Vector3.One * 1f;
+            modelScale [2] = Vector3.One * 2f;
+            modelScale [3] = Vector3.One * 2f;
+
+            modelPositions [0] = (Vector3.Left + Vector3.Up) * 10f;
+            modelPositions [1] = (Vector3.Left + Vector3.Down) * 10f;
+            modelPositions [2] = (Vector3.Forward + Vector3.Up) * 10f;
+            modelPositions [3] = (Vector3.Forward + Vector3.Down) * 10f;
         }
 
-        Vector3[] modelPositions = new Vector3[3];
-        Vector3[] modelDirections = new Vector3[3];
+        Vector3[] modelScale = new Vector3 [4];
+        Vector3[] modelPositions = new Vector3 [4];
+        Vector3[] modelRotations = new Vector3 [4];
+        Vector3[] modelDirections = new Vector3 [4];
 
-        protected override void Draw(GameTime time)
+        protected override void Draw (GameTime time)
         {
-            GraphicsDevice.Clear(Color.Gray);
+            GraphicsDevice.Clear (Color.Gray);
             
-            MoveModel(0);
+            RotateModel (0);
+            modelRotations [3] = modelRotations [2] = modelRotations [1] = modelRotations [0];
 
-            Matrix modelWorld1 = Matrix.CreateScale (0.002f) * Matrix.CreateTranslation(modelPositions[0]);
-            SetShaderParameters(modelWorld1);
-            RemapModel(model1, currentShader);
+            int index = 0;
+            SetShaderParameters (index);
+            RemapModel (model1, currentShader);
             foreach (ModelMesh mesh in model1.Meshes)
             {
-                mesh.Draw();
+                mesh.Draw ();
             }
 
-            MoveModel(1);
-
-            Matrix modelWorld2 = Matrix.CreateTranslation(modelPositions[1]);
-            SetShaderParameters(modelWorld2);
-            RemapModel(model2, currentShader);
+            ++index;
+            SetShaderParameters (index);
+            RemapModel (model2, currentShader);
             foreach (ModelMesh mesh in model2.Meshes)
             {
-                mesh.Draw();
+                mesh.Draw ();
             }
-
-            MoveModel(2);
-
-            Matrix modelWorld3 = Matrix.CreateTranslation(modelPositions[2]);
-            SetShaderParameters(modelWorld3);
-            RemapModel(model3, currentShader);
+            
+            ++index;
+            SetShaderParameters (index);
+            RemapModel (model3, currentShader);
             foreach (ModelMesh mesh in model3.Meshes)
             {
-                mesh.Draw();
+                mesh.Draw ();
             }
+            
+            ++index;
+            SetShaderParameters (index);
+            cylinder1.Draw (currentShader);
         }
 
-        void MoveModel(int i)
+        void RotateModel (int i)
         {
-            if (random.Next() % 20 == 0)
-                modelDirections[i] = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
-            modelPositions[i] += modelDirections[i];
-            if (modelPositions[i].Length() > 15)
-                modelDirections[i] = Vector3.Normalize(-modelPositions[i]) * modelDirections[i].Length();
-        }
-
-        private void SetShaderParameters(Matrix modelWorld)
-        {
-            try {
-                currentShader.Parameters["ModelTexture"].SetValue(texture);
-            } catch (NullReferenceException) {}
-
-            currentShader.Parameters["World"].SetValue(modelWorld * World);
-            currentShader.Parameters["View"].SetValue(View);
-            currentShader.Parameters["Projection"].SetValue(Projection);
-            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelWorld * World));
-            currentShader.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
-        }
-
-        Random random = new Random();
-
-        private void UpAndDown(ref float x, ref float sign, int maxDiff)
-        {
-            float diff = (random.Next() % maxDiff) / 1000f;
-            if (x + sign * diff > 0.95f)
+            if (random.Next () % 100 == 0)
             {
-                sign = -1;
+                modelDirections [i] = new Vector3 (random.Next () % 201 - 100, random.Next () % 201 - 100, random.Next () % 201 - 100) / 200f / 15f;
             }
-            if (x + sign * diff < 0.05f)
+            modelRotations [i] += modelDirections [i];
+            if (modelRotations [i].Length () > 15)
             {
-                sign = 1;
+                modelDirections [i] = Vector3.Normalize (-modelRotations [i]) * modelDirections [i].Length ();
             }
-            x += sign * diff;
         }
 
-        private void RemapModel(Model model, Effect effect)
+        private void SetShaderParameters (int index)
+        {
+            Matrix modelWorld = Matrix.CreateScale (modelScale [index])
+                * Matrix.CreateFromYawPitchRoll (modelRotations [index].Y, modelRotations [index].X, modelRotations [index].Z)
+                * Matrix.CreateTranslation (modelPositions [index]);
+
+            try
+            {
+                currentShader.Parameters ["ModelTexture"].SetValue (texture);
+            }
+            catch (NullReferenceException)
+            {
+            }
+
+            currentShader.Parameters ["World"].SetValue (modelWorld * World);
+            currentShader.Parameters ["View"].SetValue (View);
+            currentShader.Parameters ["Projection"].SetValue (Projection);
+            Matrix worldInverseTransposeMatrix = Matrix.Transpose (Matrix.Invert (modelWorld * World));
+            currentShader.Parameters ["WorldInverseTranspose"].SetValue (worldInverseTransposeMatrix);
+        }
+
+        Random random = new Random ();
+
+        private void RemapModel (Model model, Effect effect)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -182,4 +204,3 @@ namespace Examples.TestGame
         }
     }
 }
-

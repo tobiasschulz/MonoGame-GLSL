@@ -1,0 +1,167 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+sub spacelength {
+	my ($line) = @_;
+	if ($line =~ /^([\s\t]+)/) {
+		return length($1);
+	}
+	else {
+		return 0;
+	}
+}
+
+sub nonspacelength {
+	my ($line) = @_;
+	return length($line) - spacelength($line);
+}
+
+sub using_key {
+	my ($line) = @_;
+	if ($line =~ /^Microsoft/i) {
+		return 2;
+	}
+	elsif ($line =~ /^System/i) {
+		return 1;
+	}
+	elsif ($line =~ /^Knot3.Framework/i) {
+		return 4;
+	}
+	elsif ($line =~ /^Knot3.Game/i) {
+		return 5;
+	}
+	elsif ($line =~ /^Knot3/i) {
+		return 6;
+	}
+	else {
+		return 3;
+	}
+}
+
+sub copyright_lines {
+	return (map { $_."\n" } split (/\r?\n/, qq{/*
+ * Copyright (c) 2013-2014 Tobias Schulz
+ *
+ * Copying, redistribution and use of the source code in this file in source
+ * and binary forms, with or without modification, are permitted provided
+ * that the conditions of the MIT license are met.
+ */
+}));
+}
+
+# #region Copyright
+# #endregion
+
+
+my @files = split (/[\r\n]+/, `find -name "*.cs" -or -name "*.template" | egrep -v '(ThirdParty|MonoGame.Framework|2MGFX)'`);
+
+foreach my $file (@files) {
+	print $file."\n";
+	open my $fh, "<", $file;
+	my @orig_lines = <$fh>;
+	close $fh;
+
+	my %usings = map { $_ => 1 } map { s/^[^\s]*?using (.*)[;]/$1/gm; s/[\r\n]+//gm; $_ } map {$_.""} grep { /^[^\s]*?using (.*)[;]/ } @orig_lines;
+	$usings{'System.Diagnostics.CodeAnalysis'} = 1;
+	delete $usings{'Knot3.Framework.Output'};
+#	$usings{'Knot3.Framework.Platform'} = 1;
+#	$usings{'Knot3.Framework.Core'} = 1;
+#	$usings{'Knot3.Framework.Utilities'} = 1;
+#	$usings{'Knot3.Framework.Input'} = 1;
+#	$usings{'Knot3.Framework.Output'} = 1;
+	my $temp = join ('', @orig_lines);
+	$temp =~ s/#region Using[^#]*#endregion//gm;
+	@orig_lines = map { $_.qq{\n} } split (/\n/, $temp);
+	@orig_lines = grep { !/^[^\s]*?using (.*)[;]/ } @orig_lines;
+
+	my @sorted_usings = sort { using_key($a) <=> using_key($b) } sort { $a cmp $b } keys %usings;
+
+	my @lines_above_copyright_notice = ();
+	while (my $line = shift @orig_lines) {
+		#if ($line =~ /^[#]endregion\s*$/) { 
+		if ($line =~ /^\s[*]\/\s*$/) {
+			@lines_above_copyright_notice = ();
+			last;
+		}
+		push @lines_above_copyright_notice, $line;
+	}
+	unshift @orig_lines, @lines_above_copyright_notice;
+
+	my @lines = ();
+
+	#push @lines, "#region Using\n";
+	#push @lines, "\n";
+	my $last_key = -1;
+	foreach my $using (@sorted_usings) {
+		if ($last_key != -1 && $last_key != using_key($using)) {
+			push @lines, "\n";
+		}
+		push @lines, "using ".$using.";\n";
+		$last_key = using_key($using);
+	}
+	push @lines, "\n";
+	#push @lines, "#endregion\n";
+
+	while (my $line = shift @orig_lines) {
+		push @lines, $line;
+	}
+
+	for (my $i = 0; $i < @lines; ++$i) {
+		if ($lines[$i-1] =~ /^\s*[{]\s*$/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i-1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i+1] =~ /^\s*[}]\s*$/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i+1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i-1] =~ /[{]\s*$/ && $lines[$i-1] !~ /[}]/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i-1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i+1] =~ /[}].?.?.?\s*$/ && $lines[$i+1] !~ /[{]/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i+1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i-1] =~ /[(]\s*$/ && $lines[$i-1] !~ /[)]/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i-1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i+1] =~ /[)].?.?.?\s*$/ && $lines[$i+1] !~ /[(]/ && nonspacelength($lines[$i]) == 0) {# && spacelength($lines[$i]) > spacelength($lines[$i+1])) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i-2] =~ /[=][>]\s*$/ && $lines[$i-1] =~ /^\s*[{]\s*$/ && $lines[$i] =~ /^\s*[}][;]\s*$/) {
+			chomp $lines[$i-2];
+			$lines[$i-2] .= "{};\n";
+			$lines[$i-1] = "REMOVETHIS";
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i-1] =~ /[=][>]\s*$/ && $lines[$i] =~ /^\s*[{][}][;]\s*$/) {
+			chomp $lines[$i-1];
+			$lines[$i-1] .= "{};\n";
+			$lines[$i] = "REMOVETHIS";
+		}
+		if (nonspacelength($lines[$i+1]) == 0 && nonspacelength($lines[$i]) == 0) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		if ($lines[$i] =~ /using Microsoft.VisualStudio.TestTools.UnitTesting/) {
+			$lines[$i] = "using NUnit.Framework;\n";
+		}
+		if ($lines[$i] =~ /#(region|endregion)/) {
+			$lines[$i] = "REMOVETHIS";
+		}
+		$lines[$i] =~ s/TestClass/TestFixture/gm;
+		$lines[$i] =~ s/\[TestMethod\]/\[Test\]/gm;
+		$lines[$i] =~ s/([a-zA-Z0-9])\(/$1 (/gm;
+		$lines[$i] =~ s/([a-zA-Z0-9])\[([^\]]+?)\]/$1 [$2]/gm;
+		$lines[$i] =~ s/([a-zA-Z0-9])\s+?(\[\])/$1$2/gm;
+	}
+	@lines = grep {!/REMOVETHIS/} @lines;
+
+	@lines = map { if (/Log.Debug/) { s/.ToString.?\(\)//gm; s/[+]/,/gm; s/\s*?[,]/,/gm; }; $_ } @lines;
+
+	@lines = grep {!/Microsoft.VisualStudio.TestTools/} @lines;
+
+	open my $fh, ">", $file;
+	my $content = join('', copyright_lines(), qq[\n], @lines);
+	$content =~ tr/\x{feff}//d;
+	print $fh $content;
+	close $fh;
+}
