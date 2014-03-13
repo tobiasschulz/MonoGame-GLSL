@@ -30,6 +30,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Platform;
 
 namespace Examples.TestGame
 {
@@ -37,9 +38,7 @@ namespace Examples.TestGame
     {
         public static void Main (string[] args)
         {
-            //ExampleGame game = new ExampleGame ();
-            //game.Run ();
-            new TestGame ().Run ();
+            Dependencies.CatchDllExceptions(() => new TestGame().Run());
         }
     }
 }

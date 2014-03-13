@@ -34,14 +34,19 @@
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\ThirdParty\Ionic.Zip.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Platform\Dependencies.cs" />
+    <Compile Include="Platform\FileUtility.cs" />
+    <Compile Include="Platform\Log.cs" />
+    <Compile Include="Platform\SystemInfo-MG.cs" />
+    <Compile Include="Platform\SystemInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TestGame.cs" />
-    <Compile Include="Platform\Log.cs" />
-    <Compile Include="Platform\SystemInfo.cs" />
-    <Compile Include="Platform\SystemInfo-MG.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

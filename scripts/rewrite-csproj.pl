@@ -48,9 +48,7 @@ sub rewrite_csproj {
 }
 
 my @csproj_files = (
-	{ csproj => 'MonoGame.GLSL/MonoGame.GLSL.csproj', dir => 'MonoGame.GLSL/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'Examples.ConsoleTest/Examples.ConsoleTest.csproj', dir => 'Examples.ConsoleTest/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'Examples.KnotTest/Examples.KnotTest.csproj', dir => 'Examples.KnotTest/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Examples.TestGame/Examples.TestGame.csproj', dir => 'Examples.TestGame/', exclude => [], linesep => qq[\n] },
 );
 
 foreach my $csproj_file (@csproj_files) {
