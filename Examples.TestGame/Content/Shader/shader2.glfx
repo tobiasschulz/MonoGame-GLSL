@@ -4,11 +4,6 @@
 #monogame BeginShader(stage=pixel)
 #monogame ConstantBuffer(indices=[0])
 
-#ifdef GL_ES
-precision mediump float;
-precision mediump int;
-#endif
-
 uniform vec4 ps_uniforms_vec4[2];
 vec4 ps_r0;
 #define ps_c0 ps_uniforms_vec4[0]
@@ -28,11 +23,6 @@ void main()
 #monogame BeginShader(stage=vertex)
 #monogame ConstantBuffer(indices=[1])
 #monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
-
-#ifdef GL_ES
-precision highp float;
-precision mediump int;
-#endif
 
 uniform vec4 vs_uniforms_vec4[12];
 uniform vec4 posFixup;

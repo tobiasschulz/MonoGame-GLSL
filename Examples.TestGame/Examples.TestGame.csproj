@@ -73,5 +73,6 @@
     <None Include="Content\Shader\shader1.glfx" />
     <None Include="Content\Shader\shader1.fx" />
     <None Include="Content\Shader\shader1.mgfx" />
+    <None Include="Content\Shader\shader2.glfx" />
   </ItemGroup>
 </Project>
