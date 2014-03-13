@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Common", "Example.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.TestGame2", "Example.TestGame2\Example.TestGame2.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.TestGame3", "Example.TestGame3\Example.TestGame3.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -71,6 +73,14 @@ Global
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x64.Build.0 = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x86.ActiveCfg = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x86.Build.0 = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Debug|x64.ActiveCfg = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Debug|x64.Build.0 = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Debug|x86.ActiveCfg = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Debug|x86.Build.0 = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Release|x64.ActiveCfg = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Release|x64.Build.0 = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Release|x86.ActiveCfg = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C6}.Release|x86.Build.0 = Release|x86
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x64.Build.0 = Debug|Any CPU
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -113,7 +123,7 @@ Global
 		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Example.TestGame2\Example.TestGame2.csproj
+		StartupItem = Example.TestGame3\Example.TestGame3.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio

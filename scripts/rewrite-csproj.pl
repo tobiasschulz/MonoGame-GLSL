@@ -48,8 +48,10 @@ sub rewrite_csproj {
 }
 
 my @csproj_files = (
-	{ csproj => 'Examples.TestGame/Examples.TestGame.csproj', dir => 'Examples.TestGame/', exclude => [], linesep => qq[\n] },
-	{ csproj => 'Examples.Common/Examples.Common.csproj', dir => 'Examples.Common/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Example.TestGame1/Example.TestGame1.csproj', dir => 'Example.TestGame1/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Example.TestGame2/Example.TestGame2.csproj', dir => 'Example.TestGame2/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Example.TestGame3/Example.TestGame3.csproj', dir => 'Example.TestGame3/', exclude => [], linesep => qq[\n] },
+	{ csproj => 'Example.Common/Example.Common.csproj', dir => 'Example.Common/', exclude => [], linesep => qq[\n] },
 );
 
 foreach my $csproj_file (@csproj_files) {
