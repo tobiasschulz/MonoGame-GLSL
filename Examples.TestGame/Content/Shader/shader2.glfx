@@ -11,8 +11,7 @@
 #monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
 #monogame ConstantBuffer(name=bufferProjection; sizeInBytes=64; parameters=[4]; offsets=[0])
 
-#monogame BeginShader(stage=pixel)
-#monogame ConstantBuffer(indices=[0])
+#monogame BeginShader(stage=pixel constantBuffers=[0])
 
 uniform vec4 bufferColors[2];
 vec4 ps_r0;
@@ -30,8 +29,7 @@ void main()
 
 #monogame EndShader()
 
-#monogame BeginShader(stage=vertex)
-#monogame ConstantBuffer(indices=[1, 2, 3])
+#monogame BeginShader(stage=vertex; constantBuffers=[1, 2, 3])
 #monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
 
 uniform vec4 bufferWorld[4];
