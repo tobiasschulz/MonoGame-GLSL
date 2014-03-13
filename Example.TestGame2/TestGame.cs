@@ -64,21 +64,21 @@ namespace Examples.TestGame
             // Construct a new shader by loading the human-readable effect code
             shader4 = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shaderPath + "shader2.glfx"),
-                effectName: "shader2"
+                effectCode: System.IO.File.ReadAllText(shaderPath + "shader4.glfx"),
+                effectName: "shader4"
             );
 
             //shader3_gl = shader3 = null;
-            currentShader = shader3_gl;
             currentShader = shader3;
-            //currentShader = shader2;
+            currentShader = shader3_gl;
+            //currentShader = shader4;
 
             string texturePath = SystemInfo.RelativeContentDirectory + "Textures/";
             FileStream stream = new FileStream(texturePath + "texture1.png", FileMode.Open);
             texture = Texture2D.FromStream(GraphicsDevice, stream);
 
 
-            position = new Vector3(15, 15, 15);
+            position = new Vector3(15, 0, 15);
             target = Vector3.Zero;
             Vector3 up = Vector3.Up;
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;

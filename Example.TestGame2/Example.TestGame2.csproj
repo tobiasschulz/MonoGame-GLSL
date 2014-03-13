@@ -66,12 +66,10 @@
     <None Include="Content\Models\test.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Shader\shader1.fx" />
-    <None Include="Content\Shader\shader1.mgfx" />
-    <None Include="Content\Shader\shader2.glfx" />
     <None Include="Content\Shader\shader3.fx" />
     <None Include="Content\Shader\shader3.mgfx" />
     <None Include="Content\Shader\shader3.glfx_gen" />
     <None Include="Content\Models\sphere.xnb" />
+    <None Include="Content\Shader\shader4.glfx" />
   </ItemGroup>
 </Project>
