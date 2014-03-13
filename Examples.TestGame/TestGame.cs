@@ -84,15 +84,16 @@ namespace Examples.TestGame
         }
 
         Vector4 color = Color.Blue.ToVector4();
+        Random random = new Random();
 
         protected override void Draw(GameTime time)
         {
             GraphicsDevice.Clear(Color.Gray);
             
-            color.Z = ((color.Z*1000 + 5)%1000) / 1000;
-            color.W = ((color.W*1000 + 2)%1000) / 1000;
-            color.X = ((color.X*1000 + 8)%1000) / 1000;
-            color.Y = ((color.Y*1000 + 12)%1000) / 1000;
+            color.X = ((color.X*1000 + random.Next()%10)%1000) / 1000f;
+            color.Y = ((color.Y*1000 + random.Next()%20)%1000) / 1000f;
+            color.Z = ((color.Z*1000 + random.Next()%30)%1000) / 1000f;
+            color.W = 1;
             //Console.WriteLine(color);
 
             shader1.Parameters["color1"].SetValue(color);
