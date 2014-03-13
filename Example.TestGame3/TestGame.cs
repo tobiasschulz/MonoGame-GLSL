@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using OpenTK.Graphics.OpenGL;
 using Platform;
+using Primitives;
 
 namespace Examples.TestGame3
 {
@@ -42,6 +43,7 @@ namespace Examples.TestGame3
         private Model model2;
         private Model model3;
         private Cylinder cylinder1;
+        private Torus torus1;
         private Matrix World;
         private Matrix View;
         private Matrix Projection;
@@ -59,6 +61,7 @@ namespace Examples.TestGame3
             model2 = Content.Load<Model>("Models/sphere");
             model3 = Content.Load<Model>("Models/pipe-straight");
             cylinder1 = new Cylinder (device: GraphicsDevice, height: 2f, diameter: 0.5f, tessellation: 64);
+            torus1 = new Torus (device: GraphicsDevice, diameter: 1.25f, thickness: 0.5f, tessellation: 64, circlePercent: 0.25f);
 
             string shaderPath = SystemInfo.RelativeContentDirectory + "Shader/";
             shader3 = new Effect (
@@ -105,27 +108,31 @@ namespace Examples.TestGame3
             Projection = Matrix.CreatePerspectiveFieldOfView (MathHelper.ToRadians (60), aspectRatio, nearPlane, farPlane);
 
             modelScale [0] = Vector3.One * 0.002f;
-            modelScale [1] = Vector3.One * 1f;
+            modelScale [1] = Vector3.One * 2f;
             modelScale [2] = Vector3.One * 2f;
             modelScale [3] = Vector3.One * 2f;
+            modelScale [4] = Vector3.One * 2f;
 
             modelPositions [0] = (Vector3.Left + Vector3.Up) * 10f;
             modelPositions [1] = (Vector3.Left + Vector3.Down) * 10f;
             modelPositions [2] = (Vector3.Forward + Vector3.Up) * 10f;
             modelPositions [3] = (Vector3.Forward + Vector3.Down) * 10f;
+            modelPositions [4] = Vector3.Zero;
         }
 
-        Vector3[] modelScale = new Vector3 [4];
-        Vector3[] modelPositions = new Vector3 [4];
-        Vector3[] modelRotations = new Vector3 [4];
-        Vector3[] modelDirections = new Vector3 [4];
+        static readonly int NUM_MODELS = 5; 
+
+        Vector3[] modelScale = new Vector3 [NUM_MODELS];
+        Vector3[] modelPositions = new Vector3 [NUM_MODELS];
+        Vector3[] modelRotations = new Vector3 [NUM_MODELS];
+        Vector3[] modelDirections = new Vector3 [NUM_MODELS];
 
         protected override void Draw (GameTime time)
         {
             GraphicsDevice.Clear (Color.Gray);
             
             RotateModel (0);
-            modelRotations [3] = modelRotations [2] = modelRotations [1] = modelRotations [0];
+            modelRotations [4] = modelRotations [3] = modelRotations [2] = modelRotations [1] = modelRotations [0];
 
             int index = 0;
             SetShaderParameters (index);
@@ -150,10 +157,14 @@ namespace Examples.TestGame3
             {
                 mesh.Draw ();
             }
-            
+
             ++index;
             SetShaderParameters (index);
             cylinder1.Draw (currentShader);
+
+            ++index;
+            SetShaderParameters (index);
+            torus1.Draw (currentShader);
         }
 
         void RotateModel (int i)

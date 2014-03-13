@@ -41,7 +41,16 @@
     <Compile Include="Platform\Log.cs" />
     <Compile Include="Platform\SystemInfo-MG.cs" />
     <Compile Include="Platform\SystemInfo.cs" />
+    <Compile Include="Primitives\Cylinder.cs" />
+    <Compile Include="Primitives\Primitive.cs" />
+    <Compile Include="Primitives\Torus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\MonoGame-SDL2\MonoGame.Framework\MonoGame.Framework.SDL2.csproj">
+      <Project>{35253CE1-C864-4CD3-8249-4D1319748E8F}</Project>
+      <Name>MonoGame.Framework.SDL2</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

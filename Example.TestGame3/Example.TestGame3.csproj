@@ -37,8 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Cylinder.cs" />
-    <Compile Include="Primitives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TestGame.cs" />
   </ItemGroup>
