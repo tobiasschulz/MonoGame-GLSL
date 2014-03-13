@@ -1,36 +1,18 @@
-#monogame ConstantBuffer(name=ps_uniforms_vec4; sizeInBytes=176; parameters=[0, 1, 2, 3, 4, 5, 6, 7]; offsets=[0, 64, 80, 96, 112, 128, 144, 160])
-#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=304; parameters=[0, 8, 9, 10, 3, 11, 12]; offsets=[0, 64, 128, 192, 256, 272, 288])
+#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=304; parameters=[0, 1, 2, 3, 4, 5, 6]; offsets=[0, 64, 128, 192, 256, 272, 288])
 
-#monogame BeginShader(stage=pixel; constantBuffers=[0])
-#monogame Sampler(name=ps_s0; type=Sampler2D; textureSlot=0; samplerSlot=0; parameter=13)
+#monogame BeginShader(stage=pixel; constantBuffers=[])
+#monogame Sampler(name=ps_s0; type=Sampler2D; textureSlot=0; samplerSlot=0; parameter=7)
 
 #ifdef GL_ES
 precision mediump float;
 precision mediump int;
 #endif
 
-uniform vec4 ps_uniforms_vec4[11];
-const vec4 ps_c11 = vec4(1.0, 0.0, 0.0, 0.0);
+const vec4 ps_c0 = vec4(1.0, 0.0, 0.0, 0.0);
 vec4 ps_r0;
-vec4 ps_r1;
-vec4 ps_r2;
-vec4 ps_r3;
-#define ps_c0 ps_uniforms_vec4[0]
-#define ps_c1 ps_uniforms_vec4[1]
-#define ps_c2 ps_uniforms_vec4[2]
-#define ps_c3 ps_uniforms_vec4[3]
-#define ps_c4 ps_uniforms_vec4[4]
-#define ps_c5 ps_uniforms_vec4[5]
-#define ps_c6 ps_uniforms_vec4[6]
-#define ps_c7 ps_uniforms_vec4[7]
-#define ps_c8 ps_uniforms_vec4[8]
-#define ps_c9 ps_uniforms_vec4[9]
-#define ps_c10 ps_uniforms_vec4[10]
 uniform sampler2D ps_s0;
 varying vec4 vFrontColor;
 #define ps_v0 vFrontColor
-varying vec4 vTexCoord0;
-#define ps_t0 vTexCoord0
 #define ps_oC0 gl_FragColor
 varying vec4 vTexCoord1;
 #define ps_t1 vTexCoord1
@@ -38,40 +20,15 @@ varying vec4 vTexCoord1;
 void main()
 {
 	ps_r0 = texture2D(ps_s0, ps_t1.xy);
-	ps_r1.xyz = normalize(ps_c10.xyz);
-	ps_r2.w = dot(ps_r1.xyz, ps_c3.xyz);
-	ps_r2.x = dot(ps_r1.xyz, ps_c0.xyz);
-	ps_r2.y = dot(ps_r1.xyz, ps_c1.xyz);
-	ps_r2.z = dot(ps_r1.xyz, ps_c2.xyz);
-	ps_r2.w = dot(ps_r2, ps_r2);
-	ps_r2.w = inversesqrt(ps_r2.w);
-	ps_r1.xyz = ps_r2.www * ps_r2.xyz;
-	ps_r2.xyz = normalize(ps_c6.xyz);
-	ps_r3.xyz = normalize(ps_t0.xyz);
-	ps_r1.w = dot(ps_r2.xyz, ps_r3.xyz);
-	ps_r1.w = ps_r1.w + ps_r1.w;
-	ps_r2.xyz = (ps_r1.www * ps_r3.xyz) + -ps_r2.xyz;
-	ps_r3.xyz = normalize(ps_r2.xyz);
-	ps_r1.x = dot(ps_r3.xyz, ps_r1.xyz);
-	ps_r2.x = pow(abs(ps_r1.x), ps_c7.x);
-	ps_r1.x = ps_c9.x;
-	ps_r1 = ps_r1.xxxx * ps_c8;
-	ps_r1 = ps_r2.xxxx * ps_r1;
-	ps_r0.w = ps_c11.x;
-	ps_r2 = ps_c4;
-	ps_r2 = ps_r2 * ps_c5.xxxx;
-	ps_r0 = (ps_r0 * ps_v0) + ps_r2;
-	ps_r2.x = dot(ps_v0, ps_v0);
-	ps_r2.x = inversesqrt(ps_r2.x);
-	ps_r2.x = 1.0 / ps_r2.x;
-	ps_r0 = clamp((ps_r1 * ps_r2.xxxx) + ps_r0, vec4(0.0), vec4(1.0));
+	ps_r0.w = ps_c0.x;
+	ps_r0 = ps_r0 * ps_v0;
 	ps_oC0 = ps_r0;
 }
 
 
 #monogame EndShader()
 
-#monogame BeginShader(stage=vertex; constantBuffers=[1])
+#monogame BeginShader(stage=vertex; constantBuffers=[0])
 #monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
 #monogame Attribute(name=vs_v1; usage=Normal; index=0; format=0)
 #monogame Attribute(name=vs_v2; usage=TextureCoordinate; index=0; format=0)
@@ -153,16 +110,10 @@ void main()
 #monogame EndShader()
 
 #monogame EffectParameter(name=World; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=AmbientColor; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=AmbientIntensity; class=Scalar; type=Single; semantic=; rows=1; columns=1; elements=[]; structMembers=[])
-#monogame EffectParameter(name=DiffuseLightDirection; class=Vector; type=Single; semantic=; rows=1; columns=3; elements=[]; structMembers=[])
-#monogame EffectParameter(name=Shininess; class=Scalar; type=Single; semantic=; rows=1; columns=1; elements=[]; structMembers=[])
-#monogame EffectParameter(name=SpecularColor; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=SpecularIntensity; class=Scalar; type=Single; semantic=; rows=1; columns=1; elements=[]; structMembers=[])
-#monogame EffectParameter(name=ViewVector; class=Vector; type=Single; semantic=; rows=1; columns=3; elements=[]; structMembers=[])
 #monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
 #monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
 #monogame EffectParameter(name=WorldInverseTranspose; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=DiffuseLightDirection; class=Vector; type=Single; semantic=; rows=1; columns=3; elements=[]; structMembers=[])
 #monogame EffectParameter(name=DiffuseColor; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
 #monogame EffectParameter(name=DiffuseIntensity; class=Scalar; type=Single; semantic=; rows=1; columns=1; elements=[]; structMembers=[])
 #monogame EffectParameter(name=ModelTexture; class=Object; type=Texture2D; semantic=; rows=0; columns=0; elements=[]; structMembers=[])
