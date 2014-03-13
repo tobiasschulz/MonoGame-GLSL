@@ -82,22 +82,22 @@ namespace Examples.TestGame
         }
         
         Vector4 color = Color.Blue.ToVector4();
+        Vector4 colorSigns = Vector4.One;
         Vector3 modelPosition = Vector3.Zero;
         Vector3 modelDirection = Vector3.Zero;
-        Random random = new Random();
 
         protected override void Draw(GameTime time)
         {
             GraphicsDevice.Clear(Color.Gray);
             
-            color.X = ((color.X*1000 + random.Next()%10)%1000) / 1000f;
-            color.Y = ((color.Y*1000 + random.Next()%20)%1000) / 1000f;
-            color.Z = ((color.Z*1000 + random.Next()%30)%1000) / 1000f;
+            UpAndDown(ref color.X, ref colorSigns.X, 5);
+            UpAndDown(ref color.Y, ref colorSigns.Y, 10);
+            UpAndDown(ref color.Z, ref colorSigns.Z, 15);
             color.W = 1;
-            //Console.WriteLine(color);
+            Console.WriteLine(color);
 
-            currentShader.Parameters["color1"].SetValue(color);
-            currentShader.Parameters["color2"].SetValue(color);
+            currentShader.Parameters["color1"].SetValue(Vector4.Normalize(color));
+            currentShader.Parameters["color2"].SetValue(Vector4.Normalize(color));
 
             if (random.Next() % 20 == 0)
                 modelDirection = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
@@ -115,6 +115,22 @@ namespace Examples.TestGame
             {
                 mesh.Draw();
             }
+        }
+
+        Random random = new Random();
+
+        private void UpAndDown(ref float x, ref float sign, int maxDiff)
+        {
+            float diff = (random.Next() % maxDiff) / 1000f;
+            if (x + sign*diff > 0.95f)
+            {
+                sign = -1;
+            }
+            if (x + sign*diff < 0.05f)
+            {
+                sign = 1;
+            }
+            x += sign*diff;
         }
 
         private void RemapModel(Model model, Effect effect)
