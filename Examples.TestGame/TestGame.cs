@@ -94,7 +94,6 @@ namespace Examples.TestGame
             UpAndDown(ref color.Y, ref colorSigns.Y, 10);
             UpAndDown(ref color.Z, ref colorSigns.Z, 15);
             color.W = 1;
-            Console.WriteLine(color);
 
             currentShader.Parameters["color1"].SetValue(Vector4.Normalize(color));
             currentShader.Parameters["color2"].SetValue(Vector4.Normalize(color));

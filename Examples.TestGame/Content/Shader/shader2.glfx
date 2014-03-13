@@ -12,34 +12,34 @@
 #monogame ConstantBuffer(name=Projection; sizeInBytes=64; parameters=[4]; offsets=[0])
 
 #monogame BeginShader(stage=pixel; constantBuffers=[0])
+#version 130
 
 uniform vec4 bufferColors[2];
-#define color1 bufferColors[0]
-#define color2 bufferColors[1]
 
 void main()
 {
-	gl_FragColor = color1+color2;
+	gl_FragColor = bufferColors[0]+bufferColors[1];
 }
 
 
 #monogame EndShader()
 
 #monogame BeginShader(stage=vertex; constantBuffers=[1, 2, 3])
-#monogame Attribute(name=inputPos; usage=Position; index=0; format=0)
+#monogame Attribute(name=inputPosition; usage=Position; index=0; format=0)
+#version 130
 
 uniform vec4 World[4];
 uniform vec4 View[4];
 uniform vec4 Projection[4];
 uniform vec4 posFixup;
-attribute vec4 inputPos;
+in vec4 inputPosition;
 
 void main()
 {
     mat4 world = mat4(World[0], World[1], World[2], World[3]);
     mat4 view = mat4(View[0], View[1], View[2], View[3]);
     mat4 proj = mat4(Projection[0], Projection[1], Projection[2], Projection[3]);
-    gl_Position = inputPos * world * view * proj;
+    gl_Position = inputPosition * world * view * proj;
 }
 
 
