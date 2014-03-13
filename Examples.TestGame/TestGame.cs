@@ -82,6 +82,7 @@ namespace Examples.TestGame
         
         Vector4 color = Color.Blue.ToVector4();
         Vector3 modelPosition = Vector3.Zero;
+        Vector3 modelDirection = Vector3.Zero;
         Random random = new Random();
 
         protected override void Draw(GameTime time)
@@ -97,9 +98,11 @@ namespace Examples.TestGame
             shader1.Parameters["color1"].SetValue(color);
             shader1.Parameters["color2"].SetValue(color);
 
-            modelPosition += new Vector3(random.Next()%3-1, random.Next()%3-1, random.Next()%3-1);
-            if (modelPosition.Length() > 20)
-                modelPosition = Vector3.Zero;
+            if (random.Next() % 20 == 0)
+                modelDirection = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
+            modelPosition += modelDirection;
+            if (modelPosition.Length() > 15)
+                modelDirection = Vector3.Normalize(-modelPosition)* modelDirection.Length();
 
             Matrix modelWorld = Matrix.CreateTranslation(modelPosition);
             shader1.Parameters["World"].SetValue(modelWorld * World);
