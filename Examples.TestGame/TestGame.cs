@@ -39,7 +39,7 @@ namespace Examples.TestGame
         {
             model = Content.Load<Model>("Models/sphere");
 
-            string shader1Path = SystemInfo.RelativeContentDirectory + "Shader/hlsl";
+            string shader1Path = SystemInfo.RelativeContentDirectory + "Shader/shader1";
             shader1 = new Effect(
                 graphicsDevice: GraphicsDevice,
                 effectCode: File.ReadAllBytes(shader1Path + ".mgfx"),
