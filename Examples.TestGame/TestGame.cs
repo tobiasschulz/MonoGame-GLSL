@@ -95,8 +95,8 @@ namespace Examples.TestGame
             color.W = 1;
             //Console.WriteLine(color);
 
-            shader1.Parameters["color1"].SetValue(color);
-            shader1.Parameters["color2"].SetValue(color);
+            currentShader.Parameters["color1"].SetValue(color);
+            currentShader.Parameters["color2"].SetValue(color);
 
             if (random.Next() % 20 == 0)
                 modelDirection = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
@@ -105,11 +105,11 @@ namespace Examples.TestGame
                 modelDirection = Vector3.Normalize(-modelPosition)* modelDirection.Length();
 
             Matrix modelWorld = Matrix.CreateTranslation(modelPosition);
-            shader1.Parameters["World"].SetValue(modelWorld * World);
-            shader1.Parameters["View"].SetValue(View);
-            shader1.Parameters["Projection"].SetValue(Projection);
+            currentShader.Parameters["World"].SetValue(modelWorld * World);
+            currentShader.Parameters["View"].SetValue(View);
+            currentShader.Parameters["Projection"].SetValue(Projection);
 
-            RemapModel(model, shader1);
+            RemapModel(model, currentShader);
             foreach (ModelMesh mesh in model.Meshes)
             {
                 mesh.Draw();

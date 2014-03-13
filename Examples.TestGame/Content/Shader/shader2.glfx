@@ -1,5 +1,7 @@
 #monogame ConstantBuffer(name=ps_uniforms_vec4; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
-#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=192; parameters=[2, 3, 4]; offsets=[0, 64, 128])
+#monogame ConstantBuffer(name=vs_uniforms_World; sizeInBytes=64; parameters=[2]; offsets=[0])
+#monogame ConstantBuffer(name=vs_uniforms_View; sizeInBytes=64; parameters=[3]; offsets=[0])
+#monogame ConstantBuffer(name=vs_uniforms_Projection; sizeInBytes=64; parameters=[4]; offsets=[0])
 
 #monogame BeginShader(stage=pixel)
 #monogame ConstantBuffer(indices=[0])
@@ -21,25 +23,27 @@ void main()
 #monogame EndShader()
 
 #monogame BeginShader(stage=vertex)
-#monogame ConstantBuffer(indices=[1])
+#monogame ConstantBuffer(indices=[1, 2, 3])
 #monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
 
-uniform vec4 vs_uniforms_vec4[12];
+uniform vec4 vs_uniforms_World[4];
+uniform vec4 vs_uniforms_View[4];
+uniform vec4 vs_uniforms_Projection[4];
 uniform vec4 posFixup;
 vec4 vs_r0;
 vec4 vs_r1;
-#define vs_c0 vs_uniforms_vec4[0]
-#define vs_c1 vs_uniforms_vec4[1]
-#define vs_c2 vs_uniforms_vec4[2]
-#define vs_c3 vs_uniforms_vec4[3]
-#define vs_c4 vs_uniforms_vec4[4]
-#define vs_c5 vs_uniforms_vec4[5]
-#define vs_c6 vs_uniforms_vec4[6]
-#define vs_c7 vs_uniforms_vec4[7]
-#define vs_c8 vs_uniforms_vec4[8]
-#define vs_c9 vs_uniforms_vec4[9]
-#define vs_c10 vs_uniforms_vec4[10]
-#define vs_c11 vs_uniforms_vec4[11]
+#define vs_c0 vs_uniforms_World[0]
+#define vs_c1 vs_uniforms_World[1]
+#define vs_c2 vs_uniforms_World[2]
+#define vs_c3 vs_uniforms_World[3]
+#define vs_c4 vs_uniforms_View[0]
+#define vs_c5 vs_uniforms_View[1]
+#define vs_c6 vs_uniforms_View[2]
+#define vs_c7 vs_uniforms_View[3]
+#define vs_c8 vs_uniforms_Projection[0]
+#define vs_c9 vs_uniforms_Projection[1]
+#define vs_c10 vs_uniforms_Projection[2]
+#define vs_c11 vs_uniforms_Projection[3]
 attribute vec4 vs_v0;
 #define vs_oPos gl_Position
 
