@@ -1,14 +1,14 @@
-#monogame EffectParameter(name=color1; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=color2; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=color1; class=Vector; type=Single; rows=1; columns=4)
+#monogame EffectParameter(name=color2; class=Vector; type=Single; rows=1; columns=4)
 #monogame ConstantBuffer(name=bufferColors; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
 
-#monogame EffectParameter(name=World; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=World; class=Matrix; type=Single; rows=4; columns=4)
 #monogame ConstantBuffer(name=World; sizeInBytes=64; parameters=[2]; offsets=[0])
 
-#monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=View; class=Matrix; type=Single; rows=4; columns=4)
 #monogame ConstantBuffer(name=View; sizeInBytes=64; parameters=[3]; offsets=[0])
 
-#monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=Projection; class=Matrix; type=Single; rows=4; columns=4)
 #monogame ConstantBuffer(name=Projection; sizeInBytes=64; parameters=[4]; offsets=[0])
 
 #monogame BeginShader(stage=pixel; constantBuffers=[0])
