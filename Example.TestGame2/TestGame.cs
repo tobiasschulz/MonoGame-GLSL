@@ -42,7 +42,7 @@ namespace Examples.TestGame
 
         protected override void LoadContent()
         {
-            model = Content.Load<Model>("Models/sphere");
+            model = Content.Load<Model>("Models/test");
 
             string shaderPath = SystemInfo.RelativeContentDirectory + "Shader/";
             shader3 = new Effect(
@@ -106,8 +106,10 @@ namespace Examples.TestGame
 
             //currentShader.Parameters["color1"].SetValue(Vector4.Normalize(color));
             //currentShader.Parameters["color2"].SetValue(Vector4.Normalize(color));
-            currentShader.Parameters["ModelTexture"].SetValue(texture);
-            currentShader.Parameters["ViewVector"].SetValue(Vector3.Normalize(target-position));
+            try {
+                currentShader.Parameters["ModelTexture"].SetValue(texture);
+            } catch (NullReferenceException) {}
+            //currentShader.Parameters["ViewVector"].SetValue(Vector3.Normalize(target-position));
 
             if (random.Next() % 20 == 0)
                 modelDirection = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
@@ -115,7 +117,7 @@ namespace Examples.TestGame
             if (modelPosition.Length() > 15)
                 modelDirection = Vector3.Normalize(-modelPosition) * modelDirection.Length();
 
-            Matrix modelWorld = Matrix.CreateTranslation(modelPosition);
+            Matrix modelWorld = Matrix.CreateScale (0.002f) * Matrix.CreateTranslation(modelPosition);
             currentShader.Parameters["World"].SetValue(modelWorld * World);
             currentShader.Parameters["View"].SetValue(View);
             currentShader.Parameters["Projection"].SetValue(Projection);

@@ -1,7 +1,7 @@
-#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=304; parameters=[0, 1, 2, 3, 4, 5, 6]; offsets=[0, 64, 128, 192, 256, 272, 288])
+#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=256; parameters=[0, 1, 2, 3]; offsets=[0, 64, 128, 192])
 
 #monogame BeginShader(stage=pixel; constantBuffers=[])
-#monogame Sampler(name=ps_s0; type=Sampler2D; textureSlot=0; samplerSlot=0; parameter=7)
+#monogame Sampler(name=ps_s0; type=Sampler2D; textureSlot=0; samplerSlot=0; parameter=4)
 
 #ifdef GL_ES
 precision mediump float;
@@ -11,8 +11,6 @@ precision mediump int;
 const vec4 ps_c0 = vec4(1.0, 0.0, 0.0, 0.0);
 vec4 ps_r0;
 uniform sampler2D ps_s0;
-varying vec4 vFrontColor;
-#define ps_v0 vFrontColor
 #define ps_oC0 gl_FragColor
 varying vec4 vTexCoord1;
 #define ps_t1 vTexCoord1
@@ -21,7 +19,6 @@ void main()
 {
 	ps_r0 = texture2D(ps_s0, ps_t1.xy);
 	ps_r0.w = ps_c0.x;
-	ps_r0 = ps_r0 * ps_v0;
 	ps_oC0 = ps_r0;
 }
 
@@ -38,9 +35,8 @@ precision highp float;
 precision mediump int;
 #endif
 
-uniform vec4 vs_uniforms_vec4[19];
+uniform vec4 vs_uniforms_vec4[16];
 uniform vec4 posFixup;
-const vec4 vs_c19 = vec4(0.0, 1.0, 0.0, 0.0);
 vec4 vs_r0;
 vec4 vs_r1;
 #define vs_c0 vs_uniforms_vec4[0]
@@ -59,13 +55,8 @@ vec4 vs_r1;
 #define vs_c13 vs_uniforms_vec4[13]
 #define vs_c14 vs_uniforms_vec4[14]
 #define vs_c15 vs_uniforms_vec4[15]
-#define vs_c16 vs_uniforms_vec4[16]
-#define vs_c17 vs_uniforms_vec4[17]
-#define vs_c18 vs_uniforms_vec4[18]
 attribute vec4 vs_v0;
 #define vs_oPos gl_Position
-varying vec4 vFrontColor;
-#define vs_oD0 vFrontColor
 varying vec4 vTexCoord0;
 #define vs_oT0 vTexCoord0
 attribute vec4 vs_v1;
@@ -93,14 +84,7 @@ void main()
 	vs_r0.z = dot(vs_v1, vs_c14);
 	vs_r0.w = dot(vs_r0, vs_r0);
 	vs_r0.w = inversesqrt(vs_r0.w);
-	vs_r0.xyz = vs_r0.www * vs_r0.xyz;
-	vs_r0.w = dot(vs_r0.xyz, vs_c16.xyz);
-	vs_oT0.xyz = vs_r0.xyz;
-	vs_r1 = vs_c17;
-	vs_r1 = vs_r1 * vs_c18.xxxx;
-	vs_r0 = vs_r0.wwww * vs_r1;
-	vs_r0 = max(vs_r0, vs_c19.xxxx);
-	vs_oD0 = min(vs_r0, vs_c19.yyyy);
+	vs_oT0.xyz = vs_r0.www * vs_r0.xyz;
 	vs_oT1.xy = vs_v2.xy;
 	gl_Position.y = gl_Position.y * posFixup.y;
 	gl_Position.xy += posFixup.zw * gl_Position.ww;
@@ -113,9 +97,6 @@ void main()
 #monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
 #monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
 #monogame EffectParameter(name=WorldInverseTranspose; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=DiffuseLightDirection; class=Vector; type=Single; semantic=; rows=1; columns=3; elements=[]; structMembers=[])
-#monogame EffectParameter(name=DiffuseColor; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
-#monogame EffectParameter(name=DiffuseIntensity; class=Scalar; type=Single; semantic=; rows=1; columns=1; elements=[]; structMembers=[])
 #monogame EffectParameter(name=ModelTexture; class=Object; type=Texture2D; semantic=; rows=0; columns=0; elements=[]; structMembers=[])
 #monogame EffectPass(name=Pass1; vertexShader=1; pixelShader=0)
 #monogame EffectTechnique(name=Textured)
