@@ -68,7 +68,7 @@ namespace Examples.TestGame
             currentShader = shader1_gl;
             currentShader = shader2;
 
-            Vector3 position = new Vector3(10, 10, 10);
+            Vector3 position = new Vector3(15, 15, 15);
             Vector3 target = Vector3.Zero;
             Vector3 up = Vector3.Up;
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
@@ -79,8 +79,9 @@ namespace Examples.TestGame
             View = Matrix.CreateLookAt(position, target, up);
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
         }
-
+        
         Vector4 color = Color.Blue.ToVector4();
+        Vector3 modelPosition = Vector3.Zero;
         Random random = new Random();
 
         protected override void Draw(GameTime time)
@@ -95,9 +96,13 @@ namespace Examples.TestGame
 
             shader1.Parameters["color1"].SetValue(color);
             shader1.Parameters["color2"].SetValue(color);
-            
 
-            shader1.Parameters["World"].SetValue(World);
+            modelPosition += new Vector3(random.Next()%3-1, random.Next()%3-1, random.Next()%3-1);
+            if (modelPosition.Length() > 20)
+                modelPosition = Vector3.Zero;
+
+            Matrix modelWorld = Matrix.CreateTranslation(modelPosition);
+            shader1.Parameters["World"].SetValue(modelWorld * World);
             shader1.Parameters["View"].SetValue(View);
             shader1.Parameters["Projection"].SetValue(Projection);
 
