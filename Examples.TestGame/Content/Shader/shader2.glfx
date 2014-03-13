@@ -3,72 +3,43 @@
 #monogame ConstantBuffer(name=bufferColors; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
 
 #monogame EffectParameter(name=World; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
-#monogame ConstantBuffer(name=bufferWorld; sizeInBytes=64; parameters=[2]; offsets=[0])
+#monogame ConstantBuffer(name=World; sizeInBytes=64; parameters=[2]; offsets=[0])
 
 #monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
-#monogame ConstantBuffer(name=bufferView; sizeInBytes=64; parameters=[3]; offsets=[0])
+#monogame ConstantBuffer(name=View; sizeInBytes=64; parameters=[3]; offsets=[0])
 
 #monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
-#monogame ConstantBuffer(name=bufferProjection; sizeInBytes=64; parameters=[4]; offsets=[0])
+#monogame ConstantBuffer(name=Projection; sizeInBytes=64; parameters=[4]; offsets=[0])
 
-#monogame BeginShader(stage=pixel constantBuffers=[0])
+#monogame BeginShader(stage=pixel; constantBuffers=[0])
 
 uniform vec4 bufferColors[2];
-vec4 ps_r0;
 #define color1 bufferColors[0]
 #define color2 bufferColors[1]
-#define ps_oC0 gl_FragColor
 
 void main()
 {
-	ps_r0 = color1;
-	ps_r0 = ps_r0 + color2;
-	ps_oC0 = ps_r0;
+	gl_FragColor = color1+color2;
 }
 
 
 #monogame EndShader()
 
 #monogame BeginShader(stage=vertex; constantBuffers=[1, 2, 3])
-#monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
+#monogame Attribute(name=inputPos; usage=Position; index=0; format=0)
 
-uniform vec4 bufferWorld[4];
-uniform vec4 bufferView[4];
-uniform vec4 bufferProjection[4];
+uniform vec4 World[4];
+uniform vec4 View[4];
+uniform vec4 Projection[4];
 uniform vec4 posFixup;
-vec4 vs_r0;
-vec4 vs_r1;
-#define vs_c0 bufferWorld[0]
-#define vs_c1 bufferWorld[1]
-#define vs_c2 bufferWorld[2]
-#define vs_c3 bufferWorld[3]
-#define vs_c4 bufferView[0]
-#define vs_c5 bufferView[1]
-#define vs_c6 bufferView[2]
-#define vs_c7 bufferView[3]
-#define vs_c8 bufferProjection[0]
-#define vs_c9 bufferProjection[1]
-#define vs_c10 bufferProjection[2]
-#define vs_c11 bufferProjection[3]
-attribute vec4 vs_v0;
-#define vs_oPos gl_Position
+attribute vec4 inputPos;
 
 void main()
 {
-	vs_r0.x = dot(vs_v0, vs_c0);
-	vs_r0.y = dot(vs_v0, vs_c1);
-	vs_r0.z = dot(vs_v0, vs_c2);
-	vs_r0.w = dot(vs_v0, vs_c3);
-	vs_r1.x = dot(vs_r0, vs_c4);
-	vs_r1.y = dot(vs_r0, vs_c5);
-	vs_r1.z = dot(vs_r0, vs_c6);
-	vs_r1.w = dot(vs_r0, vs_c7);
-	vs_oPos.x = dot(vs_r1, vs_c8);
-	vs_oPos.y = dot(vs_r1, vs_c9);
-	vs_oPos.z = dot(vs_r1, vs_c10);
-	vs_oPos.w = dot(vs_r1, vs_c11);
-	gl_Position.y = gl_Position.y * posFixup.y;
-	gl_Position.xy += posFixup.zw * gl_Position.ww;
+    mat4 world = mat4(World[0], World[1], World[2], World[3]);
+    mat4 view = mat4(View[0], View[1], View[2], View[3]);
+    mat4 proj = mat4(Projection[0], Projection[1], Projection[2], Projection[3]);
+    gl_Position = inputPos * world * view * proj;
 }
 
 

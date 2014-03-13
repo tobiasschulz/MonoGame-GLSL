@@ -64,7 +64,8 @@ namespace Examples.TestGame
                 effectCode: System.IO.File.ReadAllText(shaderPath + "shader2.glfx"),
                 effectName: "shader2"
                 );
-            
+
+            shader1_gl = shader1 = null;
             currentShader = shader1_gl;
             currentShader = shader2;
 
