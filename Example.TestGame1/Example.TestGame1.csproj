@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Examples.KnotTest</RootNamespace>
-    <AssemblyName>Examples.KnotTest</AssemblyName>
+    <RootNamespace>Examples.TestGame1</RootNamespace>
+    <AssemblyName>Examples.TestGame1</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,5 +73,6 @@
     <None Include="Content\Shader\__test_flat-color.frag" />
     <None Include="Content\Shader\__test_flat-color.vert" />
     <None Include="Content\Shader\__test_pixel1.glfx" />
+    <None Include="Content\Models\sphere.xnb" />
   </ItemGroup>
 </Project>

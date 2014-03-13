@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Network.SDL2", "Thi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame.Framework.SDL2", "ThirdParty\MonoGame-SDL2\MonoGame.Framework\MonoGame.Framework.SDL2.csproj", "{35253CE1-C864-4CD3-8249-4D1319748E8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.TestGame", "Examples.TestGame\Examples.TestGame.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.TestGame1", "Example.TestGame1\Example.TestGame1.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.Common", "Example.Common\Example.Common.csproj", "{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example.TestGame2", "Example.TestGame2\Example.TestGame2.csproj", "{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x64.Build.0 = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x86.ActiveCfg = Release|x86
 		{DCEFF43E-73DD-4923-9A61-43DF966AD1C4}.Release|x86.Build.0 = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Debug|x64.ActiveCfg = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Debug|x64.Build.0 = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Debug|x86.ActiveCfg = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Debug|x86.Build.0 = Debug|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x64.ActiveCfg = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x64.Build.0 = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x86.ActiveCfg = Release|x86
+		{DCEFF43E-73DD-4923-9A61-43DF966AD1C5}.Release|x86.Build.0 = Release|x86
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x64.Build.0 = Debug|Any CPU
 		{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -103,7 +113,7 @@ Global
 		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Examples.TestGame\Examples.TestGame.csproj
+		StartupItem = Example.TestGame2\Example.TestGame2.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio

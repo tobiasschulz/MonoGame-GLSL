@@ -1,0 +1,81 @@
+#monogame ConstantBuffer(name=ps_uniforms_vec4; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
+#monogame ConstantBuffer(name=vs_uniforms_vec4; sizeInBytes=192; parameters=[2, 3, 4]; offsets=[0, 64, 128])
+
+#monogame BeginShader(stage=pixel; constantBuffers=[0])
+
+#ifdef GL_ES
+precision mediump float;
+precision mediump int;
+#endif
+
+uniform vec4 ps_uniforms_vec4[2];
+vec4 ps_r0;
+#define ps_c0 ps_uniforms_vec4[0]
+#define ps_c1 ps_uniforms_vec4[1]
+#define ps_oC0 gl_FragColor
+
+void main()
+{
+	ps_r0 = ps_c0;
+	ps_r0 = ps_r0 + ps_c1;
+	ps_oC0 = ps_r0;
+}
+
+
+#monogame EndShader()
+
+#monogame BeginShader(stage=vertex; constantBuffers=[1])
+#monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
+
+#ifdef GL_ES
+precision highp float;
+precision mediump int;
+#endif
+
+uniform vec4 vs_uniforms_vec4[12];
+uniform vec4 posFixup;
+vec4 vs_r0;
+vec4 vs_r1;
+#define vs_c0 vs_uniforms_vec4[0]
+#define vs_c1 vs_uniforms_vec4[1]
+#define vs_c2 vs_uniforms_vec4[2]
+#define vs_c3 vs_uniforms_vec4[3]
+#define vs_c4 vs_uniforms_vec4[4]
+#define vs_c5 vs_uniforms_vec4[5]
+#define vs_c6 vs_uniforms_vec4[6]
+#define vs_c7 vs_uniforms_vec4[7]
+#define vs_c8 vs_uniforms_vec4[8]
+#define vs_c9 vs_uniforms_vec4[9]
+#define vs_c10 vs_uniforms_vec4[10]
+#define vs_c11 vs_uniforms_vec4[11]
+attribute vec4 vs_v0;
+#define vs_oPos gl_Position
+
+void main()
+{
+	vs_r0.x = dot(vs_v0, vs_c0);
+	vs_r0.y = dot(vs_v0, vs_c1);
+	vs_r0.z = dot(vs_v0, vs_c2);
+	vs_r0.w = dot(vs_v0, vs_c3);
+	vs_r1.x = dot(vs_r0, vs_c4);
+	vs_r1.y = dot(vs_r0, vs_c5);
+	vs_r1.z = dot(vs_r0, vs_c6);
+	vs_r1.w = dot(vs_r0, vs_c7);
+	vs_oPos.x = dot(vs_r1, vs_c8);
+	vs_oPos.y = dot(vs_r1, vs_c9);
+	vs_oPos.z = dot(vs_r1, vs_c10);
+	vs_oPos.w = dot(vs_r1, vs_c11);
+	gl_Position.y = gl_Position.y * posFixup.y;
+	gl_Position.xy += posFixup.zw * gl_Position.ww;
+}
+
+
+#monogame EndShader()
+
+#monogame EffectParameter(name=color1; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=color2; class=Vector; type=Single; semantic=; rows=1; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=World; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=View; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectParameter(name=Projection; class=Matrix; type=Single; semantic=; rows=4; columns=4; elements=[]; structMembers=[])
+#monogame EffectPass(name=Pass1; vertexShader=1; pixelShader=0)
+#monogame EffectTechnique(name=Technique1)
