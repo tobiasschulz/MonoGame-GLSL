@@ -32,45 +32,54 @@ namespace Examples.TestGame
         private Matrix World;
         private Matrix View;
         private Matrix Projection;
-        private Effect shader1;
-        private Effect shader1_gl;
-        private Effect shader2;
+        private Effect shader3;
+        private Effect shader3_gl;
+        private Effect shader4;
         private Effect currentShader;
+        private Texture2D texture;
+        private Vector3 position;
+        private Vector3 target;
 
         protected override void LoadContent()
         {
             model = Content.Load<Model>("Models/sphere");
 
             string shaderPath = SystemInfo.RelativeContentDirectory + "Shader/";
-            shader1 = new Effect(
+            shader3 = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: File.ReadAllBytes(shaderPath + "shader1.mgfx"),
-                effectName: "shader1"
-                );
+                effectCode: File.ReadAllBytes(shaderPath + "shader3.mgfx"),
+                effectName: "shader3"
+            );
 
             // Write human-readable effect code to file
-            File.WriteAllText(shaderPath + "shader1.glfx_gen", shader1.EffectCode);
+            File.WriteAllText(shaderPath + "shader3.glfx_gen", shader3.EffectCode);
 
             // Construct a new shader by loading the human-readable effect code
-            shader1_gl = new Effect(
+            shader3_gl = new Effect(
                 graphicsDevice: GraphicsDevice,
-                effectCode: System.IO.File.ReadAllText(shaderPath + "shader1.glfx_gen"),
-                effectName: "shader1_gl"
-                );
+                effectCode: System.IO.File.ReadAllText(shaderPath + "shader3.glfx_gen"),
+                effectName: "shader3_gl"
+            );
 
             // Construct a new shader by loading the human-readable effect code
-            shader2 = new Effect(
+            shader4 = new Effect(
                 graphicsDevice: GraphicsDevice,
                 effectCode: System.IO.File.ReadAllText(shaderPath + "shader2.glfx"),
                 effectName: "shader2"
-                );
+            );
 
-            shader1_gl = shader1 = null;
-            currentShader = shader1_gl;
-            currentShader = shader2;
+            //shader3_gl = shader3 = null;
+            currentShader = shader3_gl;
+            currentShader = shader3;
+            //currentShader = shader2;
 
-            Vector3 position = new Vector3(15, 15, 15);
-            Vector3 target = Vector3.Zero;
+            string texturePath = SystemInfo.RelativeContentDirectory + "Textures/";
+            FileStream stream = new FileStream(texturePath + "texture1.png", FileMode.Open);
+            texture = Texture2D.FromStream(GraphicsDevice, stream);
+
+
+            position = new Vector3(15, 15, 15);
+            target = Vector3.Zero;
             Vector3 up = Vector3.Up;
             float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
             float nearPlane = 0.5f;
@@ -80,7 +89,7 @@ namespace Examples.TestGame
             View = Matrix.CreateLookAt(position, target, up);
             Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(60), aspectRatio, nearPlane, farPlane);
         }
-        
+
         Vector4 color = Color.Blue.ToVector4();
         Vector4 colorSigns = Vector4.One;
         Vector3 modelPosition = Vector3.Zero;
@@ -95,19 +104,23 @@ namespace Examples.TestGame
             UpAndDown(ref color.Z, ref colorSigns.Z, 15);
             color.W = 1;
 
-            currentShader.Parameters["color1"].SetValue(Vector4.Normalize(color));
-            currentShader.Parameters["color2"].SetValue(Vector4.Normalize(color));
+            //currentShader.Parameters["color1"].SetValue(Vector4.Normalize(color));
+            //currentShader.Parameters["color2"].SetValue(Vector4.Normalize(color));
+            currentShader.Parameters["ModelTexture"].SetValue(texture);
+            currentShader.Parameters["ViewVector"].SetValue(Vector3.Normalize(target-position));
 
             if (random.Next() % 20 == 0)
                 modelDirection = new Vector3(random.Next() % 201 - 100, random.Next() % 201 - 100, random.Next() % 201 - 100) / 200f / 2f;
             modelPosition += modelDirection;
             if (modelPosition.Length() > 15)
-                modelDirection = Vector3.Normalize(-modelPosition)* modelDirection.Length();
+                modelDirection = Vector3.Normalize(-modelPosition) * modelDirection.Length();
 
             Matrix modelWorld = Matrix.CreateTranslation(modelPosition);
             currentShader.Parameters["World"].SetValue(modelWorld * World);
             currentShader.Parameters["View"].SetValue(View);
             currentShader.Parameters["Projection"].SetValue(Projection);
+            Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(modelWorld * World));
+            currentShader.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
 
             RemapModel(model, currentShader);
             foreach (ModelMesh mesh in model.Meshes)
@@ -121,15 +134,15 @@ namespace Examples.TestGame
         private void UpAndDown(ref float x, ref float sign, int maxDiff)
         {
             float diff = (random.Next() % maxDiff) / 1000f;
-            if (x + sign*diff > 0.95f)
+            if (x + sign * diff > 0.95f)
             {
                 sign = -1;
             }
-            if (x + sign*diff < 0.05f)
+            if (x + sign * diff < 0.05f)
             {
                 sign = 1;
             }
-            x += sign*diff;
+            x += sign * diff;
         }
 
         private void RemapModel(Model model, Effect effect)
