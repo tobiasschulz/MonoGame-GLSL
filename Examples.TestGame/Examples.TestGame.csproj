@@ -34,17 +34,9 @@
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\ThirdParty\Ionic.Zip.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Platform\Dependencies.cs" />
-    <Compile Include="Platform\FileUtility.cs" />
-    <Compile Include="Platform\Log.cs" />
-    <Compile Include="Platform\SystemInfo-MG.cs" />
-    <Compile Include="Platform\SystemInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TestGame.cs" />
   </ItemGroup>
@@ -58,11 +50,14 @@
       <Project>{85480198-8711-4355-830E-72FD794AD3F6}</Project>
       <Name>SDL2-CS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Example.Common\Example.Common.csproj">
+      <Project>{DF440B82-34C3-4A8E-A3AB-DE2254B0666D}</Project>
+      <Name>Example.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Content\Models\" />
-    <Folder Include="Platform\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Models\enemy_0.xnb">
