@@ -90,7 +90,7 @@ namespace Examples.TestGame3
             //shader3_gl = shader3 = null;
             currentShader = shader3;
             currentShader = shader3_gl;
-            //currentShader = shader4;
+            currentShader = shader4;
 
             string texturePath = SystemInfo.RelativeContentDirectory + "Textures/";
             FileStream stream = new FileStream (texturePath + "texture1.png", FileMode.Open);
