@@ -59,9 +59,13 @@ void main()
     
     gl_Position = inputPosition * world * view * proj;
     
-	outputNormal.xyz = normalize(inputNormal*worldInverseTranspose).xyz;
+	outputNormal.xyz = normalize(inputNormal * worldInverseTranspose).xyz;
     
 	vTexCoord1.xy = inputTexCoord.xy;
+    
+    // https://github.com/flibitijibibo/MonoGame/blob/e9f61e3efbae6f11ebbf45012e7c692c8d0ee529/MonoGame.Framework/Graphics/GraphicsDevice.cs#L1209
+    gl_Position.y = gl_Position.y * posFixup.y;
+    gl_Position.xy += posFixup.zw * gl_Position.ww;
 }
 
 
