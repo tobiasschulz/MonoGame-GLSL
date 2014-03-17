@@ -1,0 +1,48 @@
+#monogame EffectParameter(name=color1; class=Vector; type=Single; rows=1; columns=4)
+#monogame EffectParameter(name=color2; class=Vector; type=Single; rows=1; columns=4)
+#monogame ConstantBuffer(name=bufferColors; sizeInBytes=32; parameters=[0, 1]; offsets=[0, 16])
+
+#monogame EffectParameter(name=World; class=Matrix; type=Single; rows=4; columns=4)
+#monogame ConstantBuffer(name=World; sizeInBytes=64; parameters=[2]; offsets=[0])
+
+#monogame EffectParameter(name=View; class=Matrix; type=Single; rows=4; columns=4)
+#monogame ConstantBuffer(name=View; sizeInBytes=64; parameters=[3]; offsets=[0])
+
+#monogame EffectParameter(name=Projection; class=Matrix; type=Single; rows=4; columns=4)
+#monogame ConstantBuffer(name=Projection; sizeInBytes=64; parameters=[4]; offsets=[0])
+
+#monogame BeginShader(stage=pixel; constantBuffers=[0])
+#version 130
+
+uniform vec4 bufferColors[2];
+
+void main()
+{
+	gl_FragColor = bufferColors[0]+bufferColors[1];
+}
+
+
+#monogame EndShader()
+
+#monogame BeginShader(stage=vertex; constantBuffers=[1, 2, 3])
+#monogame Attribute(name=inputPosition; usage=Position; index=0; format=0)
+#version 130
+
+uniform vec4 World[4];
+uniform vec4 View[4];
+uniform vec4 Projection[4];
+in vec4 inputPosition;
+
+void main()
+{
+    mat4 world = mat4(World[0], World[1], World[2], World[3]);
+    mat4 view = mat4(View[0], View[1], View[2], View[3]);
+    mat4 proj = mat4(Projection[0], Projection[1], Projection[2], Projection[3]);
+    gl_Position = inputPosition * world * view * proj;
+}
+
+
+#monogame EndShader()
+
+#monogame EffectPass(name=Pass1; vertexShader=1; pixelShader=0)
+#monogame EffectTechnique(name=Technique1)

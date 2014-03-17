@@ -74,5 +74,6 @@
     <None Include="Content\Shader\__test_flat-color.vert" />
     <None Include="Content\Shader\__test_pixel1.glfx" />
     <None Include="Content\Models\sphere.xnb" />
+    <None Include="Content\Shader\shader2-explicit.glfx" />
   </ItemGroup>
 </Project>

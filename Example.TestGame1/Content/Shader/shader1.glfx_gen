@@ -25,7 +25,7 @@ void main()
 #monogame EndShader()
 
 #monogame BeginShader(stage=vertex; constantBuffers=[1])
-#monogame Attribute(name=vs_v0; usage=Position; index=0; format=0)
+#monogame Attribute(name=vs_v0; usage=Position; index=0)
 
 #ifdef GL_ES
 precision highp float;
@@ -33,7 +33,6 @@ precision mediump int;
 #endif
 
 uniform vec4 vs_uniforms_vec4[12];
-uniform vec4 posFixup;
 vec4 vs_r0;
 vec4 vs_r1;
 #define vs_c0 vs_uniforms_vec4[0]
@@ -65,8 +64,6 @@ void main()
 	vs_oPos.y = dot(vs_r1, vs_c9);
 	vs_oPos.z = dot(vs_r1, vs_c10);
 	vs_oPos.w = dot(vs_r1, vs_c11);
-	gl_Position.y = gl_Position.y * posFixup.y;
-	gl_Position.xy += posFixup.zw * gl_Position.ww;
 }
 
 

@@ -71,5 +71,6 @@
     <None Include="Content\Shader\shader3.glfx_gen" />
     <None Include="Content\Models\sphere.xnb" />
     <None Include="Content\Shader\shader4.glfx" />
+    <None Include="Content\Shader\shader4-explicit.glfx" />
   </ItemGroup>
 </Project>

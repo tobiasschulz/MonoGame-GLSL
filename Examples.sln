@@ -123,7 +123,7 @@ Global
 		{F8C66EB3-E81D-45FB-B28E-747BE332230F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Example.TestGame3\Example.TestGame3.csproj
+		StartupItem = Example.TestGame2\Example.TestGame2.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio
