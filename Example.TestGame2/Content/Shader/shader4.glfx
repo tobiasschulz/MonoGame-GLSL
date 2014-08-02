@@ -36,7 +36,6 @@ precision mediump int;
 #endif
 
 uniform vec4 vs_uniforms_vec4[16];
-uniform vec4 posFixup;
 vec4 vs_r0;
 vec4 vs_r1;
 #define vs_c0 vs_uniforms_vec4[0]
@@ -86,8 +85,8 @@ void main()
 	vs_r0.w = inversesqrt(vs_r0.w);
 	vs_oT0.xyz = vs_r0.www * vs_r0.xyz;
 	vs_oT1.xy = vs_v2.xy;
-	gl_Position.y = gl_Position.y * posFixup.y;
-	gl_Position.xy += posFixup.zw * gl_Position.ww;
+	gl_Position.y = gl_Position.y;
+	gl_Position.xy += gl_Position.ww;
 }
 
 
